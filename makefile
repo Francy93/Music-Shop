@@ -3,17 +3,17 @@ CC = g++
 #creating the -c -Wall variable containing compilation parameters
 CFLAGS = -c -Wall
 
-#compiling the two files to get the final one which would be myshell.cpp and utility.cpp
-final: myshell.o utility.o
-	$(CC) myshell.o utility.o -o final
+#compiling the two files to get the final one which would be musicShop.cpp and components.cpp
+final: musicShop.o components.o
+	$(CC) musicShop.o components.o -o final
 
-#compiling just the myshell.cpp file even though myshell,h is not compulsory, it is just fr precaution
-myshell.o: myshell.cpp myshell.h
-	$(CC) $(CFLAGS) myshell.cpp
+#compiling just the musicShop.cpp file even though musicShop,h is not compulsory, it is just for precaution
+musicShop.o: musicShop.cpp musicShop.h
+	$(CC) $(CFLAGS) musicShop.cpp
 
-#compiling just the utility.cpp file
-utility.o: utility.cpp myshell.h
-	$(CC) $(CFLAGS) utility.cpp
+#compiling just the components.cpp file
+components.o: components.cpp musicShop.h
+	$(CC) $(CFLAGS) components.cpp
 
 #clearing all copild files
 clear:

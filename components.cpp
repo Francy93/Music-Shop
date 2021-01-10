@@ -1,56 +1,28 @@
 #include "components.hpp"
+#include "util.cpp"
 
 #include <string>
 #include <iostream>
 #include <ctime>   //library for data and time
-#include <sstream> //library for intoToString converter
+#include <vector>
 
 using namespace std;
 
-string IntToString(int a){
-    ostringstream temp;
-    temp << a;
-    return temp.str();
-}
-
-string dateGen(){
-    time_t curr_time;
-    curr_time = time(NULL);
-    tm *tm_local = localtime(&curr_time);
-
-    int H = tm_local->tm_hour;
-    string h = IntToString(H);  //converting hour to string
-    int MI = tm_local->tm_hour;
-    string mi = IntToString(MI);//converting minutes to string
-    int S = tm_local->tm_hour;
-    string s = IntToString(S);  //converting seconds to string
-    int D = tm_local->tm_mday;
-    string d = IntToString(D);  //converting day to string
-    int MO = tm_local->tm_mon;
-    string mo = IntToString(MO);//converting month to string
-    int Y = tm_local->tm_year;
-    string y = IntToString(Y);  //converting year to string
-
-    string time = h+":"+mi+":"+s;
-    string date = d+":"+mo+":"+y;
-
-    return date+"/"+time;
-}
 
 class Categories{
 
     private:
+        Util util;
         string name;
-        string date = dateGen();
+        string date = util.dateGen();
         int price;
         int amount;
-
 
     protected:
         string idCalc(std::string cat){
             //reading the file DataBase
             int number = 0;
-            return IntToString(number);
+            return util.IntToString(number);
         }
             
     public:
@@ -70,8 +42,8 @@ class DVD : public Categories {
 
 
     private:
+        string cat = "D";
         string idGen (){
-            string cat = "D";
             string n = idCalc(cat);
             return cat+"00"+n;
         }
@@ -83,8 +55,8 @@ class CD : public Categories {
         const string id = idGen();
 
      private:
+        string cat = "C";
         string idGen (){
-            string cat = "C";
             string n = idCalc(cat);
             return cat+"00"+n;
         }
@@ -97,8 +69,8 @@ class Magazine : public Categories {
         const string id = idGen();
 
     private:
+        string cat = "M";
         string idGen (){
-            string cat = "M";
             string n = idCalc(cat);
             return cat+"00"+n;
         }
@@ -110,14 +82,33 @@ class Book : public Categories {
         string id = "0";
 
     private:
+        string cat = "B";
         string idGen (){
-            string cat = "B";
             string n = idCalc(cat);
             return cat+"00"+n;
         }
 };
 
 class Logistic {
+    private:
+        Util util;
+        int chooseCat(bool IorO){
+            int nav = 0;
+            cout << "Choose category by entering \"DVD\", \"CD\", \"Magazines\", or \"Books\"" << endl;
+            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+
+            while(nav == 0){
+                string choice; cin >> choice;
+                if     (choice == "exit"     ){ nav = 1; break; }
+                else if(choice == "back"     ){ nav = 2; break; }
+                else if(choice == "DVD"      ){ break; }
+                else if(choice == "CD"       ){ break; }
+                else if(choice == "Magazines"){ break; }
+                else if(choice == "Books"    ){ break; }
+                else { cout << "Choice not contemplated" << endl; }
+            }
+            return nav;
+        }
 
     public:
         bool update(){
@@ -126,17 +117,26 @@ class Logistic {
             return false;
         }
 
-        bool restock(){
-            bool exit = false;
-
-            cout << "RESTOCKING!\r\nNow select an amount to be summed like \"-2\", \"5\" up to 2147483647"<< endl;
-            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+        bool restock(bool exit){
+            bool back = false;
+            cout << "RESTOCKING!\r\n"<< endl;
             
-            while(!exit){
+            int nav = chooseCat(false);
+            if(nav == 1){ exit = true; }
+            else if(nav == 2){ back = true; }
+            else{
+                cout << "\r\nNow enter an ID followed by the amount to be summed like \"-2\", \"5\" up to 2147483647"<< endl;
+                cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+            }
+            
+            while(!exit && !back){
                 string amount; cin >> amount;
                 if(amount == "exit"){
                     exit = true;
+                    break;
                 }else if(amount == "back"){
+                    back = true;
+                    exit = restock(exit);
                     break;
                 }else try{
                     int num = stoi( amount );
@@ -147,7 +147,7 @@ class Logistic {
 
                     while(true){
                         if(choice == "yes"){
-                            restock();
+                            exit = restock(exit);
                             break;
                         }else if(choice == "no"){
                             break;
@@ -158,33 +158,31 @@ class Logistic {
                     cout << "Wrong input. Try again!\r\n" << endl;
                 }
             }
-
             return exit;
         }
 
-        bool newItem(){ 
-            cout << "ADDING A NEW PRODUCT\r\nPlease, enter a Name, a Price and a Quantity" << endl;
-            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+        bool newItem(bool exit){
+            bool back = false;
+            cout << "ADDING A NEW PRODUCT\r\n" << endl;
+
+            int nav = chooseCat(true);
+            if(nav == 1){ exit = true; }
+            else if(nav == 2){ back = true; }
+            else{
+                cout << "Please, enter a Name, a Price and a Quantity" << endl;
+                cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+            }
+            
             return false;
         }
 
-        bool sell(){
-            bool exit = false;
+        bool sell(bool exit){
             bool back = false;
-            
-            cout << "SELLING\r\nChoose category by entering \"DVD\", \"CD\", \"Magazines\", or \"Books\"" << endl;
-            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+            cout << "SELLING\r\n";
 
-            while(!exit && !back){
-                string choice; cin >> choice;
-                if     (choice == "exit"     ){ exit = true;  break; }
-                else if(choice == "back"     ){ back = false; break; }
-                else if(choice == "DVD"      ){ break; }
-                else if(choice == "CD"       ){ break; }
-                else if(choice == "Magazines"){ break; }
-                else if(choice == "Books"    ){ break; }
-                else { cout << "Choice not contemplated" << endl; }
-            }
+            int nav = chooseCat(false);
+            if(nav == 1){ exit = true; }
+            else if(nav == 2){ back = true; }
 
             while(!exit && !back){
                 cout << "Now enter the ID of the product to be sold.\r\n" << endl;
@@ -197,19 +195,19 @@ class Logistic {
                 }
                 else if(id == "exit"){ exit = true; }
                 else if(id == "back"){ back = true; }
-                else{ cout << "Wrong id"; }
+                else{ cout << "Wrong id!" << endl; }
 
             }
-            if(back){ sell(); }
+            if(back){ exit = sell(exit); }
             return exit;    
         }
 
         bool report(){
             bool exit = false;
-
+            bool back = false;
             cout << "REPORT LIST" << endl;
             cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
-            //function displaying the report list
+            //function displaying the report list           
             
             while(!exit){
                 cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
@@ -238,9 +236,9 @@ struct User {
             bool exit = false;
 
             if(choice == "Sell"){
-                exit =logistic.sell();
+                exit =logistic.sell(exit);
             }else if (choice == "Restock"){
-                exit =logistic.restock();
+                exit =logistic.restock(exit);
             }else if (choice == "NewItem" || choice == "Update" || choice == "Report"){
                 cout << "Access denied. User not allowed!\r\n" << endl;
             }else { cout << "Error user: wrong operation choice!\r\n" << endl; }
@@ -263,11 +261,11 @@ struct SuperUser : User{
             bool exit = false;
 
             if(choice == "Sell"){
-                exit = logistic.sell();
+                exit = logistic.sell(exit);
             }else if (choice == "Restock"){
-                exit = logistic.restock();
+                exit = logistic.restock(exit);
             }else if(choice == "NewItem"){
-                exit = logistic.newItem();
+                exit = logistic.newItem(exit);
             }else if (choice == "Update"){
                 exit = logistic.update();
             }else if (choice == "Report"){

@@ -2,10 +2,10 @@
 #include "operations.cpp"
 //#include "components.cpp"
 
-//#include <iostream>
-/* #include <string>
-#include <memory>
-#include <vector> */
+#include <iostream>
+/* //#include <string>
+//#include <memory>
+//#include <vector> */
 
 using namespace std;
 

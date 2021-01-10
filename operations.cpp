@@ -1,4 +1,4 @@
-#include "components.hpp"
+//#include "components.hpp"
 #include "components.cpp"
 
 #include <string>
@@ -48,8 +48,7 @@ bool menuSecond(bool exit){
         back = true;
     }else{ 
         cout << "Choice not contemplated!\r\nTry again!" << endl;
-        menuSecond(exit);
     }
-    if(!back){ menuSecond(exit); }
+    if(!exit && !back){ menuSecond(exit); }
     return exit;
 }

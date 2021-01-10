@@ -205,9 +205,22 @@ class Logistic {
         }
 
         bool report(){
+            bool exit = false;
+
             cout << "REPORT LIST" << endl;
             cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
-            return false;    
+            //function displaying the report list
+            
+            while(!exit){
+                cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+                string choice; cin >> choice;
+
+                if(choice == "back"){ break; }
+                else if(choice == "exit"){ exit = true; }
+                else { cout << "Choice not contemplated" << endl; }
+            }
+
+            return exit;    
         }
 
 };

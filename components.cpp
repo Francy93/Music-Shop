@@ -156,14 +156,18 @@ struct User {
         virtual bool privileges(){ return false; }
         virtual string text(){ return "Sell,\r\nRestock,\r\n"; }
         
-        virtual void selection(std::string choice){
+        virtual bool selection(std::string choice){
+            bool exit = false;
+
             if(choice == "Sell"){
-                logistic.sell();
+                exit =logistic.sell();
             }else if (choice == "Restock"){
-                logistic.restock();
+                exit =logistic.restock();
             }else if (choice == "NewItem" || choice == "Update" || choice == "Report"){
                 cout << "Access denied. User not allowed!\r\n" << endl;
             }else { cout << "Error user: wrong operation choice!\r\n" << endl; }
+
+            return exit;
         }
         
         virtual ~User() = default; // to silence -Wall warnings
@@ -177,17 +181,19 @@ struct SuperUser : User{
             return "Sell,\r\nRestock,\r\nNewItem,\r\nUpdate,\r\nReport.\r\n";
         }
         
-        void selection(std::string choice) override{
+        bool selection(std::string choice) override{
+            bool exit = false;
+
             if(choice == "Sell"){
-                logistic.sell();
+                exit = logistic.sell();
             }else if (choice == "Restock"){
-                logistic.restock();
+                exit = logistic.restock();
             }else if(choice == "NewItem"){
-                logistic.newItem();
+                exit = logistic.newItem();
             }else if (choice == "Update"){
-                logistic.update();
+                exit = logistic.update();
             }else if (choice == "Report"){
-                logistic.report();
+                exit = logistic.report();
             }else { cout << "Error sudo: wrong operation choice!\r\n"; }
         }
 };

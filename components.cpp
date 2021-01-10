@@ -121,27 +121,41 @@ class Logistic {
 
     public:
         bool update(){ 
-            cout << "updating" << endl; 
+            cout << "UPDATED!" << endl; 
             return false;
         }
 
         bool restock(){ 
-            cout << "restocking" << endl;
+            cout << "RESTOCKING!\r\nNow select an amount to be summed like \"-2\", \"5\"" << endl;
+            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
             return false;
         }
 
         bool newItem(){ 
-            cout << "adding newItem" << endl;
+            cout << "ADDING A NEW PRODUCT\r\nPlease, enter a Name, a Price and a Quantity" << endl;
+            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
             return false;
         }
 
         bool sell(){
-            cout << "selling" << endl;
-            return false;    
+            bool exit = false;
+            cout << "SELLING\r\nChoose category by entering \"DVD\", \"CD\", \"Magazines\", or \"Books\"" << endl;
+            cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+            string choice; cin >> choice;
+
+            if     (choice == "exit"     ){ exit = true; }
+            else if(choice == "DVD"      ){}
+            else if(choice == "CD"       ){}
+            else if(choice == "Magazines"){}
+            else if(choice == "Books"    ){}
+            else { cout << "Choice not contemplated" << endl; }
+            
+            return exit;    
         }
 
         bool report(){
-            cout << "reporting" << endl;
+            cout << "REPORT LIST" << endl;
+            cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
             return false;    
         }
 
@@ -195,5 +209,7 @@ struct SuperUser : User{
             }else if (choice == "Report"){
                 exit = logistic.report();
             }else { cout << "Error sudo: wrong operation choice!\r\n"; }
+
+            return exit;
         }
 };

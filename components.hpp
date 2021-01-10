@@ -1,12 +1,14 @@
-#include "components.hpp"
+/* #ifndef _COMPONENTS_H_
+#define _COMPONENTS_H_
 
-#include <string>
+
 #include <iostream>
+#include <string>  //library for string variables
 #include <ctime>   //library for data and time
 #include <sstream> //library for intoToString converter
 
 using namespace std;
-
+//declaring all the classes that I are going to use
 string IntToString(int a){
     ostringstream temp;
     temp << a;
@@ -117,77 +119,6 @@ class Book : public Categories {
         }
 };
 
-class Logistic {
 
-    public:
-        bool update(){ 
-            cout << "updating" << endl; 
-            return false;
-        }
 
-        bool restock(){ 
-            cout << "restocking" << endl;
-            return false;
-        }
-
-        bool newItem(){ 
-            cout << "adding newItem" << endl;
-            return false;
-        }
-
-        bool sell(){
-            cout << "selling" << endl;
-            return false;    
-        }
-
-        bool report(){
-            cout << "reporting" << endl;
-            return false;    
-        }
-
-};
-
-struct User {
-    
-    protected:
-        Logistic logistic;
-
-    public:
-        virtual bool privileges(){ return false; }
-        virtual string text(){ return "Sell,\r\nRestock,\r\n"; }
-        
-        virtual void selection(std::string choice){
-            if(choice == "Sell"){
-                logistic.sell();
-            }else if (choice == "Restock"){
-                logistic.restock();
-            }else if (choice == "NewItem" || choice == "Update" || choice == "Report"){
-                cout << "Access denied. User not allowed!\r\n" << endl;
-            }else { cout << "Error user: wrong operation choice!\r\n" << endl; }
-        }
-        
-        virtual ~User() = default; // to silence -Wall warnings
-};
-
-struct SuperUser : User{
-        
-    public:
-        bool privileges() override { return true; }
-        string text() override { 
-            return "Sell,\r\nRestock,\r\nNewItem,\r\nUpdate,\r\nReport.\r\n";
-        }
-        
-        void selection(std::string choice) override{
-            if(choice == "Sell"){
-                logistic.sell();
-            }else if (choice == "Restock"){
-                logistic.restock();
-            }else if(choice == "NewItem"){
-                logistic.newItem();
-            }else if (choice == "Update"){
-                logistic.update();
-            }else if (choice == "Report"){
-                logistic.report();
-            }else { cout << "Error sudo: wrong operation choice!\r\n"; }
-        }
-};
+#endif */

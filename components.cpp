@@ -120,15 +120,46 @@ class Book : public Categories {
 class Logistic {
 
     public:
-        bool update(){ 
+        bool update(){
+            //function to update
             cout << "UPDATED!" << endl; 
             return false;
         }
 
-        bool restock(){ 
-            cout << "RESTOCKING!\r\nNow select an amount to be summed like \"-2\", \"5\"" << endl;
+        bool restock(){
+            bool exit = false;
+
+            cout << "RESTOCKING!\r\nNow select an amount to be summed like \"-2\", \"5\" up to 2147483647"<< endl;
             cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
-            return false;
+            
+            while(!exit){
+                string amount; cin >> amount;
+                if(amount == "exit"){
+                    exit = true;
+                }else if(amount == "back"){
+                    break;
+                }else try{
+                    int num = stoi( amount );
+                    // function to summ restock amount
+                    cout << "Stock updated!" << endl;
+                    cout << "Restoking one more product? Enter \"yes\" or \"no\".\r\n" << endl;
+                    string choice; cin >> choice;
+
+                    while(true){
+                        if(choice == "yes"){
+                            restock();
+                            break;
+                        }else if(choice == "no"){
+                            break;
+                        }else { cout << "Choice not contemplated" << endl; }
+                    }
+                    break;
+                }catch (...) {
+                    cout << "Wrong input. Try again!\r\n" << endl;
+                }
+            }
+
+            return exit;
         }
 
         bool newItem(){ 
@@ -139,17 +170,37 @@ class Logistic {
 
         bool sell(){
             bool exit = false;
+            bool back = false;
+            
             cout << "SELLING\r\nChoose category by entering \"DVD\", \"CD\", \"Magazines\", or \"Books\"" << endl;
             cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
-            string choice; cin >> choice;
 
-            if     (choice == "exit"     ){ exit = true; }
-            else if(choice == "DVD"      ){}
-            else if(choice == "CD"       ){}
-            else if(choice == "Magazines"){}
-            else if(choice == "Books"    ){}
-            else { cout << "Choice not contemplated" << endl; }
-            
+            while(!exit && !back){
+                string choice; cin >> choice;
+                if     (choice == "exit"     ){ exit = true;  break; }
+                else if(choice == "back"     ){ back = false; break; }
+                else if(choice == "DVD"      ){ break; }
+                else if(choice == "CD"       ){ break; }
+                else if(choice == "Magazines"){ break; }
+                else if(choice == "Books"    ){ break; }
+                else { cout << "Choice not contemplated" << endl; }
+            }
+
+            while(!exit && !back){
+                cout << "Now enter the ID of the product to be sold.\r\n" << endl;
+                string id; cin >> id;
+                bool idCheck = false; //checking existence id
+
+                if(idCheck){
+                    //displaying product details
+
+                }
+                else if(id == "exit"){ exit = true; }
+                else if(id == "back"){ back = true; }
+                else{ cout << "Wrong id"; }
+
+            }
+            if(back){ sell(); }
             return exit;    
         }
 

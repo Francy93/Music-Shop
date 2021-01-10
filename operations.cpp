@@ -13,8 +13,7 @@ vector<shared_ptr<User>> usrVec; // access Derived via shared_ptr to Base
 auto user = make_shared<User>();
 auto sudo = make_shared<SuperUser>();
 
-bool userFirst(bool exit){
-    cout << "Welcome to the Music-Shop Software" << endl;    
+bool userFirst(bool exit){  
     //selecting a user
     cout << "\r\nPlease select a user.\r\nEnter here \"employee\" or \"manager\" to access." << endl;
     cout << "Alternatively enter \"exit\" to close the program.\r\n" << endl;
@@ -34,6 +33,7 @@ bool userFirst(bool exit){
 }
     
 bool menuSecond(bool exit){
+    bool back = false;
     cout << "\r\nType one of the options below." << endl;
     cout << "Alternatively enter \"exit\" to close the program.\r\n" << endl;
     cout << usrVec.front()->text() << endl;
@@ -41,12 +41,15 @@ bool menuSecond(bool exit){
     
     if(choice == "exit"){
         exit = true;
-    }else if(choice == "Sell"   || choice == "Restock"||
+    }else if(   choice == "Sell"   || choice == "Restock"||
                 choice == "NewItem"|| choice == "Update" || choice == "Report"){
         exit = usrVec.front()->selection(choice);
+    }else if(choice == "back"){
+        back = true;
     }else{ 
         cout << "Choice not contemplated!\r\nTry again!" << endl;
         menuSecond(exit);
     }
+    if(!back){ menuSecond(exit); }
     return exit;
 }

@@ -12,6 +12,7 @@ using namespace std;
 
 int main(){
     bool exit = false;
+    cout << "Welcome to the Music-Shop Software" << endl;
 
     while(!exit){
         exit = userFirst(exit);

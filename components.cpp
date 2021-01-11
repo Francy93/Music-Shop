@@ -13,12 +13,13 @@ class Categories{
 
     private:
         Util util;
-        string name;
+        string name = "";
         string date = util.dateGen();
-        int price;
-        int amount;
+        int price   = 0;
+        int amount  = 0;
 
     protected:
+        string id;
         string idCalc(std::string cat){
             //reading the file DataBase
             int number = 0;
@@ -26,65 +27,81 @@ class Categories{
         }
             
     public:
-        void setName(std::string n)  { name = n;   };
-        void setPrice(int p) { price = p;  };
-        void setAmount(int a){ amount = a; };
+        void setName(std::string n)  { name = n;   }
+        void setPrice(int p)         { price = p;  }
+        void setAmount(int a)        { amount = a; }
 
-        string getName() { return name;   };
-        int getPrice()   { return price;  };
-        int getAmount()  { return amount; };
+        string getID()   { return id;     }
+        string getName() { 
+            if (name == ""){
+                name = util.getById(id)[1];
+            }
+            return name;
+        }
+        int getPrice()   { 
+            if (price == 0){
+                price = stoi(util.getById(id)[2]);
+            }
+            return price;
+        }
+        int getAmount()  {
+            if (amount == 0){
+                amount = stoi(util.getById(id)[3]);
+            }
+            return amount; 
+        }
 };
 
 class DVD : public Categories {
 
     private:
         string cat = "D";
-        string idGen (){
-            string n = idCalc(cat);
-            return cat+"00"+n;
-        }
 
-    public:
-        const string id = idGen();
+    public:        
+        DVD(std::string ID){ id = ID;}
+        DVD(){
+            string n = idCalc(cat);
+            id = cat+"00"+n;
+        }
 };
 
 class CD : public Categories {
 
      private:
         string cat = "C";
-        string idGen (){
-            string n = idCalc(cat);
-            return cat+"00"+n;
-        }
 
     public:
-        const string id = idGen();
+        CD(std::string ID){ id = ID;}
+        CD(){
+            string n = idCalc(cat);
+            id = cat+"00"+n;
+        }
 };
 
 class Magazine : public Categories {
 
     private:
         string cat = "M";
-        string idGen (){
-            string n = idCalc(cat);
-            return cat+"00"+n;
-        }
 
     public:
-        const string id = idGen();
+        Magazine(std::string ID){ id = ID;}
+        Magazine(){
+            string n = idCalc(cat);
+            id = cat+"00"+n;
+        }
 };
 
 class Book : public Categories {
 
     private:
         string cat = "B";
-        string idGen (){
-            string n = idCalc(cat);
-            return cat+"00"+n;
-        }
 
     public:
-        const string id = idGen();
+        Book(std::string ID){ id = ID;}
+        Book(){
+            string n = idCalc(cat);
+            id = cat+"00"+n;
+        }
 };
 
 class Logistic {

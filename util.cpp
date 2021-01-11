@@ -1,9 +1,10 @@
-#include <string>  // strings library
-#include <iostream>// general library
-#include <sstream> // library for intoToString converter
-#include <ctime>   //library for data and time
-#include <vector>  // vectors library
-#include <fstream> // file text scanner
+#include <string>   // strings library
+#include <iostream> // general library
+#include <sstream>  // library for intoToString converter
+#include <ctime>    // library for data and time
+#include <vector>   // vectors library
+#include <fstream>  // file text scanner
+#include <algorithm>// std::find
 
 using namespace std;
 
@@ -108,7 +109,7 @@ class Util {
             vec.push_back(s);
             return vec;
         }
-        
+
     private:
         //fetching imported data, from sessionDB (ram) and splitting into categories
         vector<vector<string>> catSplit(std::string category){
@@ -182,6 +183,39 @@ class Util {
             string date = d+":"+mo+":"+y;
 
             return date+"/"+time;
+        }
+
+        // Function to print the index of an element
+        int getIndex(vector<int> v, int K){
+            int index;
+            auto it = find(v.begin(), v.end(), K);
+            // If element was found
+            if (it != v.end()){
+                // calculating the index of K
+                index = it - v.begin();
+            }else {
+                // If the element is not in the vector
+                index = -1;
+            }
+            return index;
+        }
+
+        vector<string> getById(std::string id){
+            vector<vector<string>> cat;
+            vector<string> data({"empty", "empty", "empty", "empty", "empty"});
+
+            if(id.at(0) == 'D')     { cat = DVDs;      }
+            else if(id.at(0) == 'C'){ cat = CDs;       }
+            else if(id.at(0) == 'M'){ cat = Magazines; }
+            else if(id.at(0) == 'B'){ cat = Books;     }
+            else{ cout << "System error! Util::getById(): not a valid id\r\n" << endl; }
+
+            for(vector<string> c: cat){
+                if(c[0] == id){
+                    data = c;
+                }
+            }
+            return data;
         }
 
 };

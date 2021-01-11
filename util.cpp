@@ -1,6 +1,7 @@
 #include <string>  // strings library
 #include <iostream>// general library
 #include <sstream> // library for intoToString converter
+#include <ctime>   //library for data and time
 #include <vector>  // vectors library
 #include <fstream> // file text scanner
 
@@ -27,8 +28,9 @@ class Util {
             
             ifstream file(fname);
             
+            bool newOpen = false;
             while(true){
-                if (file.is_open()) {
+                if (file.is_open() || newOpen) {
                     string line;
                     while (std::getline(file, line)) {
                         line.c_str();
@@ -39,11 +41,13 @@ class Util {
                     file.close();
                     break;
                 }else if(file.fail()){
-                    cout << "DataBase missing. Creating one!\r\n\r\n\r\n" << endl;
+                    cout << "DataBase missing. Creating one..." << endl;
                     fstream file;
                     file.open(fname, std::ios::out);
                     file << fflush;
                     file.close();
+                    file.open(fname, std::ios::in);
+                    if (file.is_open()) { cout << "Created!\r\n\r\n\r\n"; newOpen = true; }
                 }
             }
             return DB;
@@ -73,19 +77,19 @@ class Util {
             
                 vector<string> DVD;
                 vector<string> CD;
-                vector<string> Magazines;
-                vector<string> Books;
+                vector<string> Magazine;
+                vector<string> Book;
 
             if(!InOut){    
-                DVD       = importer("D");
-                CD        = importer("C");
-                Magazines = importer("M");
-                Books     = importer("B");
+                DVD      = importer("D");
+                CD       = importer("C");
+                Magazine = importer("M");
+                Book     = importer("B");
             }else{
                 exporter();
             }
 
-            vector<vector<string>> category({DVD, CD, Magazines, Books});
+            vector<vector<string>> category({DVD, CD, Magazine, Book});
             return category;
         }
 

@@ -19,6 +19,13 @@ int main(){
         if(!exit){ exit = menuSecond(exit); }
     }
 
+    cout << "Before leaving, do you wanna save? Enter \"yes\" or \"no\"" << endl;
+    string saving; cin >> saving;
+    while(true){
+        if (saving == "yes"){ Util util; util.updater(); break;}
+        else if(saving == "no"){ break; }
+    }
+
     cout << "Successfully exited!" << endl;
     return 0;
 }

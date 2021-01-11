@@ -15,37 +15,55 @@ class Categories{
         Util util;
         string name = "";
         string date = util.dateGen();
-        int price   = 0;
-        int amount  = 0;
+        int price   = -1;
+        int amount  = -1;
 
     protected:
         string id;
-        string idCalc(std::string cat){
+        int catIndex;
+        string idCalc(int cat){
             //reading the file DataBase
-            int number = 0;
+            int number = util.SessionDB[cat].size();
+            catIndex = cat;
             return util.IntToString(number);
+        }
+        void dataToVec(){
+            if(price != -1 && amount != -1 && name != ""){
+                vector<string> newItem({id, name, util.IntToString(price), util.IntToString(amount), date});
+                switch(catIndex){
+                    case 0: util.DVDs.push_back(newItem);
+                        break;
+                    case 1: util.CDs.push_back(newItem);
+                        break;
+                    case 2: util.Magazines.push_back(newItem);
+                        break;
+                    case 3: util.Books.push_back(newItem);
+                        break;
+                }
+            }
         }
             
     public:
-        void setName(std::string n)  { name = n;   }
-        void setPrice(int p)         { price = p;  }
-        void setAmount(int a)        { amount = a; }
+        void setName(std::string n)  { name = n;   dataToVec(); }
+        void setPrice(int p)         { price = p;  dataToVec(); }
+        void setAmount(int a)        { amount = a; dataToVec(); }
 
-        string getID()   { return id;     }
-        string getName() { 
+        string getID(){ return id; }
+
+        string getName(){ 
             if (name == ""){
                 name = util.getById(id)[1];
             }
             return name;
         }
-        int getPrice()   { 
-            if (price == 0){
+        int getPrice(){ 
+            if (price == -1){
                 price = stoi(util.getById(id)[2]);
             }
             return price;
         }
-        int getAmount()  {
-            if (amount == 0){
+        int getAmount(){
+            if (amount == -1){
                 amount = stoi(util.getById(id)[3]);
             }
             return amount; 
@@ -56,11 +74,12 @@ class DVD : public Categories {
 
     private:
         string cat = "D";
+        int index = 0;
 
     public:        
         DVD(std::string ID){ id = ID;}
         DVD(){
-            string n = idCalc(cat);
+            string n = idCalc(index);
             id = cat+"00"+n;
         }
 };
@@ -69,11 +88,12 @@ class CD : public Categories {
 
      private:
         string cat = "C";
+        int index = 1;
 
     public:
         CD(std::string ID){ id = ID;}
         CD(){
-            string n = idCalc(cat);
+            string n = idCalc(index);
             id = cat+"00"+n;
         }
 };
@@ -82,11 +102,12 @@ class Magazine : public Categories {
 
     private:
         string cat = "M";
+        int index = 2;
 
     public:
         Magazine(std::string ID){ id = ID;}
         Magazine(){
-            string n = idCalc(cat);
+            string n = idCalc(index);
             id = cat+"00"+n;
         }
 };
@@ -95,11 +116,12 @@ class Book : public Categories {
 
     private:
         string cat = "B";
+        int index = 3;
 
     public:
         Book(std::string ID){ id = ID;}
         Book(){
-            string n = idCalc(cat);
+            string n = idCalc(index);
             id = cat+"00"+n;
         }
 };

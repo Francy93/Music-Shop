@@ -17,11 +17,12 @@ class Util {
         vector<vector<string>> CDs;
         vector<vector<string>> Magazines;
         vector<vector<string>> Books;
+        
+        vector<vector<string>> SessionDB;
 
     private:
         string delimiter = " :: ";
         string fname = "DataBase.txt";
-        vector<vector<string>> SessionDB;
 
         //file reader
         vector<string> importer(std::string cat){

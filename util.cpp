@@ -5,11 +5,14 @@
 
 using namespace std;
 
+
 class Util {
 
     private:
+        string delimiter = " :: ";
         vector<vector<string>> SessionDB;
 
+        //importing data from HardDisk
         vector<vector<string>> dbQuery(bool IorO){
             
             vector<string> DVD;
@@ -25,10 +28,66 @@ class Util {
             vector<vector<string>> category({DVD, CD, Magazines, Books});
             return category;
         }
+
+        //the holly strings splitter *.*
+        vector<string> split(std::string s, std::string delimiter){
+            vector<string> vec;
+            
+            size_t pos = 0;
+            string token;
+            while ((pos = s.find(delimiter)) != string::npos) {
+                token = s.substr(0, pos);
+                vec.push_back(token);
+                s.erase(0, pos + delimiter.length());
+            }
+            vec.push_back(s);
+            return vec;
+        }
+
+        //fetching imported data, from sessionDB (ram) and splitting into categories
+        vector<vector<string>> catSplit(std::string category){
+            vector<vector<string>> products;
+
+            if(category == "D"){
+                vector<string> DVDs ({SessionDB[0]});
+                for (string item: DVDs){
+                    products.push_back(split(item, delimiter));
+                }
+            }else if(category == "C"){
+                vector<string> CDs ({SessionDB[1]});
+                for (string item: CDs){
+                    products.push_back(split(item, delimiter));
+                }
+            }else if(category == "M"){
+                vector<string> Magazines ({SessionDB[2]});
+                for (string item: Magazines){
+                    products.push_back(split(item, delimiter));
+                }
+            }else if(category == "B"){
+                vector<string> Books ({SessionDB[3]});
+                for (string item: Books){
+                    products.push_back(split(item, delimiter));
+                }
+            }else{ cout << "System error: Fetching (Wrong category)" << endl; }
+
+            return products;
+        }
         
     public:
-        //constructor method
-        Util(){ SessionDB = dbQuery(false); }
+        //categories matrix
+        vector<vector<string>> DVDs;
+        vector<vector<string>> CDs;
+        vector<vector<string>> Magazines;
+        vector<vector<string>> Books;
+
+        //constructor method to initialize DataBase vectors
+        Util(){ 
+            SessionDB = dbQuery(false); 
+            DVDs      = catSplit("D");
+            CDs       = catSplit("C");
+            Magazines = catSplit("M");
+            Books     = catSplit("B");
+        }
 
         string IntToString(int a){
             ostringstream temp;
@@ -36,6 +95,7 @@ class Util {
             return temp.str();
         }
 
+        //current date generator
         string dateGen(){
             time_t curr_time;
             curr_time = time(NULL);
@@ -60,16 +120,4 @@ class Util {
             return date+"/"+time;
         }
 
-        //fetching imported data, from sessionDB (ram)
-        vector<vector<string>> fetching(std::string category){
-            if(category == "D"){
-
-            }else if(category == "C"){
-
-            }else if(category == "M"){
-
-            }else if(category == "B"){
-
-            }else{ cout << "System error: Fetching (Wrong category)" << endl; }
-        }
 };

@@ -9,15 +9,22 @@ using namespace std;
 
 class Util {
 
+    public:
+        //categories matrix
+        vector<vector<string>> DVDs;
+        vector<vector<string>> CDs;
+        vector<vector<string>> Magazines;
+        vector<vector<string>> Books;
+
     private:
         string delimiter = " :: ";
+        string fname = "DataBase.txt";
         vector<vector<string>> SessionDB;
 
         //file reader
         vector<string> importer(std::string cat){
             vector<string> DB;
             
-            string fname = "DataBase.txt";
             ifstream file(fname);
             
             while(true){
@@ -42,18 +49,41 @@ class Util {
             return DB;
         }
 
+        //data exporter
+        void exporter(){
+            vector<vector<vector<string>>> all({DVDs, CDs, Magazines, Books});
+
+            fstream file;
+            file.open(fname, std::ios::out);
+            //writing cicle
+            for(vector<vector<string>> cat: all){
+                for(vector<string> item: cat){
+                    for(string data: item){
+                        file << data;
+                    }
+                    file << "\r\n";
+                }
+            }
+            //closing the file
+            file.close();
+        }
+
         //importing data from HardDisk
-        vector<vector<string>> dbQuery(bool IorO){
+        vector<vector<string>> dbQuery(bool InOut){
             
-            vector<string> DVD;
-            vector<string> CD;
-            vector<string> Magazines;
-            vector<string> Books;
-            
-            DVD       = importer("D");
-            CD        = importer("C");
-            Magazines = importer("M");
-            Books     = importer("B");
+                vector<string> DVD;
+                vector<string> CD;
+                vector<string> Magazines;
+                vector<string> Books;
+
+            if(!InOut){    
+                DVD       = importer("D");
+                CD        = importer("C");
+                Magazines = importer("M");
+                Books     = importer("B");
+            }else{
+                exporter();
+            }
 
             vector<vector<string>> category({DVD, CD, Magazines, Books});
             return category;
@@ -104,12 +134,6 @@ class Util {
         }
         
     public:
-        //categories matrix
-        vector<vector<string>> DVDs;
-        vector<vector<string>> CDs;
-        vector<vector<string>> Magazines;
-        vector<vector<string>> Books;
-
         //constructor method to initialize DataBase vectors
         Util(){ 
             SessionDB = dbQuery(false); 
@@ -117,6 +141,10 @@ class Util {
             CDs       = catSplit("C");
             Magazines = catSplit("M");
             Books     = catSplit("B");
+        }
+
+        void updater(){
+            dbQuery(true);
         }
 
         string IntToString(int a){

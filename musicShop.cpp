@@ -27,6 +27,6 @@ int main(){
         else { cout << "Choice not contemplated" << endl; }
     }
 
-    cout << "Successfully exited!" << endl;
+    cout << "\r\nSuccessfully exited!" << endl;
     return 0;
 }

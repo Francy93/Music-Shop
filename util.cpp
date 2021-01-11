@@ -93,6 +93,7 @@ class Util {
             return category;
         }
 
+    public:
         //the holly strings splitter *.*
         vector<string> split(std::string s, std::string delimiter){
             vector<string> vec;
@@ -107,7 +108,8 @@ class Util {
             vec.push_back(s);
             return vec;
         }
-
+        
+    private:
         //fetching imported data, from sessionDB (ram) and splitting into categories
         vector<vector<string>> catSplit(std::string category){
             vector<vector<string>> products;
@@ -140,7 +142,7 @@ class Util {
     public:
         //constructor method to initialize DataBase vectors
         Util(){ 
-            SessionDB = dbQuery(false); 
+            SessionDB = dbQuery(false); //selfrunnin dbQuery in output mode
             DVDs      = catSplit("D");
             CDs       = catSplit("C");
             Magazines = catSplit("M");
@@ -148,7 +150,7 @@ class Util {
         }
 
         void updater(){
-            dbQuery(true);
+            dbQuery(true); //runnin dbQuery in input mode
         }
 
         string IntToString(int a){

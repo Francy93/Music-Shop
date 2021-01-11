@@ -36,10 +36,6 @@ class Categories{
 };
 
 class DVD : public Categories {
-    
-    public:
-        const string id = idGen();
-
 
     private:
         string cat = "D";
@@ -47,12 +43,12 @@ class DVD : public Categories {
             string n = idCalc(cat);
             return cat+"00"+n;
         }
-};
-
-class CD : public Categories {
 
     public:
         const string id = idGen();
+};
+
+class CD : public Categories {
 
      private:
         string cat = "C";
@@ -61,12 +57,11 @@ class CD : public Categories {
             return cat+"00"+n;
         }
 
+    public:
+        const string id = idGen();
 };
 
 class Magazine : public Categories {
-
-    public:
-        const string id = idGen();
 
     private:
         string cat = "M";
@@ -74,12 +69,12 @@ class Magazine : public Categories {
             string n = idCalc(cat);
             return cat+"00"+n;
         }
+
+    public:
+        const string id = idGen();
 };
 
 class Book : public Categories {
-
-    public:
-        string id = "0";
 
     private:
         string cat = "B";
@@ -87,6 +82,9 @@ class Book : public Categories {
             string n = idCalc(cat);
             return cat+"00"+n;
         }
+
+    public:
+        const string id = idGen();
 };
 
 class Logistic {
@@ -99,13 +97,13 @@ class Logistic {
 
             while(nav == 0){
                 string choice; cin >> choice;
-                if     (choice == "exit"     ){ nav = 1; break; }
-                else if(choice == "back"     ){ nav = 2; break; }
-                else if(choice == "DVD"      ){ break; }
-                else if(choice == "CD"       ){ break; }
-                else if(choice == "Magazines"){ break; }
-                else if(choice == "Books"    ){ break; }
-                else { cout << "Choice not contemplated" << endl; }
+                if     (choice == "exit"     ){ nav = -2; break; }
+                else if(choice == "back"     ){ nav = -1; break; }
+                else if(choice == "DVD"      ){ nav =  0; break; }
+                else if(choice == "CD"       ){ nav =  1; break; }
+                else if(choice == "Magazines"){ nav =  2; break; }
+                else if(choice == "Books"    ){ nav =  3; break; }
+                else { cout << "Choice not contemplated" << endl;}
             }
             return nav;
         }
@@ -113,7 +111,9 @@ class Logistic {
     public:
         bool update(){
             //function to update
-            cout << "UPDATED!" << endl; 
+            util.updater();
+
+            cout << "UPDATED!" << endl;
             return false;
         }
 
@@ -121,9 +121,9 @@ class Logistic {
             bool back = false;
             cout << "RESTOCKING!\r\n"<< endl;
             
-            int nav = chooseCat(false);
-            if(nav == 1){ exit = true; }
-            else if(nav == 2){ back = true; }
+            int nav = chooseCat(false);  //this will print the product list
+            if(nav == -2){ exit = true; }
+            else if(nav == -1){ back = true; }
             else{
                 cout << "\r\nNow enter an ID followed by the amount to be summed like \"-2\", \"5\" up to 2147483647"<< endl;
                 cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
@@ -165,15 +165,73 @@ class Logistic {
             bool back = false;
             cout << "ADDING A NEW PRODUCT\r\n" << endl;
 
-            int nav = chooseCat(true);
-            if(nav == 1){ exit = true; }
-            else if(nav == 2){ back = true; }
+            int price, amount;
+            string name;
+
+            int nav = chooseCat(true); //this will print the product list
+            if(nav == -2){ exit = true; }
+            else if(nav == -1){ back = true; }
             else{
-                cout << "Please, enter a Name, a Price and a Quantity" << endl;
+                cout << "Please, enter a Name, a Price and a Quantity (e.g \"name\", \"10.90\", \"30\")" << endl;
                 cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+                string data; cin >> data;
+
+                vector<string> tokens ({util.split(data, ", ")});
+
+                while(nav != -1 || nav != -2){
+                    if     (data == "exit"){ nav = -2;  exit = true;  break; }
+                    else if(data == "back"){ nav = -1;  back = true;  break; }
+                    else try{
+                        price  = stoi( tokens[1] );
+                        amount = stoi( tokens[2] );
+                        name= tokens[0];
+                        break;
+                    }catch (...){
+                        cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers." << endl;
+                        cout << "Try again!\r\n" << endl;
+                    }
+                }
             }
-            
-            return false;
+
+            DVD dvd;
+            CD cd;
+            Magazine magazine;
+            Book book;
+
+            switch(nav){
+                case -2: exit = true;
+                    break;
+                case -1: back = true;
+                    break;
+                case  0: 
+                    dvd.setName(name);
+                    dvd.setPrice(price);
+                    dvd.setAmount(amount);
+                    cout << "Item successfully added!\r\n" << endl;
+                    break; 
+                case  1: 
+                    cd.setName(name);
+                    cd.setPrice(price);
+                    cd.setAmount(amount);
+                    cout << "Item successfully added!\r\n" << endl;
+                    break;
+                case  2: 
+                    magazine.setName(name);
+                    magazine.setPrice(price);
+                    magazine.setAmount(amount);
+                    cout << "Item successfully added!\r\n" << endl;
+                    break;
+                case  3: 
+                    book.setName(name);
+                    book.setPrice(price);
+                    book.setAmount(amount);
+                    cout << "Item successfully added!\r\n" << endl;
+                    break;
+                default: cout << "System error: Wrong output from chooseCat()\r\n" << endl;
+                    break;
+            }
+
+            return exit;
         }
 
         bool sell(bool exit){
@@ -181,8 +239,8 @@ class Logistic {
             cout << "SELLING\r\n";
 
             int nav = chooseCat(false);
-            if(nav == 1){ exit = true; }
-            else if(nav == 2){ back = true; }
+            if(nav == -2){ exit = true; }
+            else if(nav == -1){ back = true; }
 
             while(!exit && !back){
                 cout << "Now enter the ID of the product to be sold.\r\n" << endl;

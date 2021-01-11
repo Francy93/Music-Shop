@@ -116,10 +116,10 @@ class Logistic {
                 string choice; cin >> choice;
                 if     (choice == "exit"     ){ nav = -2; break; }
                 else if(choice == "back"     ){ nav = -1; break; }
-                else if(choice == "DVD"      ){ nav =  0; break; }
-                else if(choice == "CD"       ){ nav =  1; break; }
-                else if(choice == "Magazines"){ nav =  2; break; }
-                else if(choice == "Books"    ){ nav =  3; break; }
+                else if(choice == "DVD"      ){ nav =  0;  util.print(nav);  break; }
+                else if(choice == "CD"       ){ nav =  1;  util.print(nav);  break; }
+                else if(choice == "Magazines"){ nav =  2;  util.print(nav);  break; }
+                else if(choice == "Books"    ){ nav =  3;  util.print(nav);  break; }
                 else { cout << "Choice not contemplated" << endl;}
             }
             return nav;

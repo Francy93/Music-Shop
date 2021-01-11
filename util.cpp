@@ -218,4 +218,13 @@ class Util {
             return data;
         }
 
+        void print(int cat){
+            if(cat > SessionDB.size()){
+                cout << "System error! Util::print() wrong cateory.\r\n" << endl;
+            }else{
+                for (string product: SessionDB[cat]){
+                    cout << product << endl;
+                }
+            }
+        }
 };

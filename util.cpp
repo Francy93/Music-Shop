@@ -65,7 +65,7 @@ class Util {
             for(vector<vector<string>> cat: all){
                 for(vector<string> item: cat){
                     for(string data: item){
-                        if(data != item[(item.size())-1]){ data += " :: "; }
+                        if(data != item[(item.size())-1]){ data += delimiter; }
                         file << data;
                     }
                     file << endl;
@@ -85,9 +85,7 @@ class Util {
                 for(string c: cat){
                     categories.push_back(importer(c));
                 }
-            }else{
-                exporter();
-            }
+            }else{ exporter(); }
 
             return categories;
         }

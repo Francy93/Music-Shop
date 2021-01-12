@@ -1,10 +1,11 @@
 #include "components.hpp"
 #include "util.cpp"
 
-#include <string>
+#include <regex>    // regular expressions
+/* #include <string>
 #include <iostream>
 #include <ctime>   //library for data and time
-#include <vector>
+#include <vector> */
 
 using namespace std;
 
@@ -218,17 +219,24 @@ class Logistic {
             else{
                 cout << "Please, enter a Name, a Price and a Quantity (e.g \"name\" \"10.90\" \"30\")" << endl;
                 cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
-                    
+                
+                regex price_expr("-?[0-9]+([.][0-9]+)?");
+                regex amount_expr("-?[0-9]+([0-9]+)?");
                 while(nav != -1 || nav != -2){
+                    string amInt;
                     cin >> name;
-                    cin >> price;
-                    cin >> amount;
                     if     (name == "exit"){ nav = -2;  exit = true;  break; }
                     else if(name == "back"){ nav = -1;  back = true;  break; }
-                    else if(stoi(price) == 0 && amount == 0){
-                        cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers greater than 0." << endl;
+                    cin >> price;
+                    cin >> amInt;
+                    if(regex_match(price, price_expr) && regex_match(amInt, amount_expr)){
+                        amount = stoi(amInt);
+                        price += "$"; 
+                        break;
+                    }else{
+                        cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers." << endl;
                         cout << "Try again!\r\n" << endl;
-                    }else{ price += "$" ; break; }
+                    }
                 }
             }
 
@@ -270,6 +278,7 @@ class Logistic {
                     break;
             }
 
+            if(back || nav == -1){ exit = newItem(exit); }
             return exit;
         }
 

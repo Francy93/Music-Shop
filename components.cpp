@@ -281,7 +281,7 @@ class Logistic {
                     magazine.setAmount(amount);
                     cout << "Item successfully added!\r\n" << endl;
                     break;
-                case  3: 
+                case  3:
                     book.setName(name);
                     book.setPrice(price);
                     book.setAmount(amount);

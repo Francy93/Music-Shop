@@ -201,7 +201,7 @@ class Util {
                     break;
             }
 
-            for (int i = 0; i <= category.size(); i++){
+            for (int i = 0; i < category.size(); i++){
                 if(category[i][0] == k){ index = i; }
             }
 

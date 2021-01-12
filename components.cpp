@@ -23,25 +23,38 @@ class Categories{
         string id;
         int catIndex;
         string idCalc(int cat){
-            //reading the file DataBase
-            int number = util.SessionDB[cat].size();
+            int number = util.SessionDB[cat].size();  //reading the file DataBase
             catIndex = cat;
             return util.IntToString(number);
         }
-        void dataToVec(){
+        void dataToVec(){ //storing data to vector only after complete collection of data
             if(price != "" && amount >= 0 && name != ""){
                 vector<string> newItem({id, name, price, util.IntToString(amount), date});
+                bool found = util.getById(id)[0] == id? true : false;
+                int index = util.getIndex(catIndex, id);
+
                 switch(catIndex){
-                    case 0: util.DVDs.push_back(newItem);
+                    case 0: 
+                        if(found){
+                            util.DVDs[index] = newItem;
+                        }else{ util.DVDs.push_back(newItem); }
                         util.updater();
                         break;
-                    case 1: util.CDs.push_back(newItem);
+                    case 1:  
+                        if(found){
+                            util.CDs[index] = newItem;
+                        }else{ util.CDs.push_back(newItem); }
                         util.updater();
                         break;
-                    case 2: util.Magazines.push_back(newItem);
+                    case 2:  
+                        if(found){
+                            util.Magazines[index] = newItem;
+                        }else{ util.Magazines.push_back(newItem); }
                         util.updater();
                         break;
-                    case 3: util.Books.push_back(newItem);
+                    case 3: if(found){
+                            util.Books[index] = newItem;
+                        }else{ util.Books.push_back(newItem); }
                         util.updater();
                         break;
                 }
@@ -147,7 +160,7 @@ class Logistic {
                 else if(choice == "CD"       ){ nav =  1;  util.print(nav);  break; }
                 else if(choice == "Magazines"){ nav =  2;  util.print(nav);  break; }
                 else if(choice == "Books"    ){ nav =  3;  util.print(nav);  break; }
-                else { cout << "Choice not contemplated" << endl;}
+                else {  cout << "Choice not contemplated" << endl; }
             }
             return nav;
         }

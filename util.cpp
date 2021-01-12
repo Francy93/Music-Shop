@@ -131,7 +131,7 @@ class Util {
                 for (string item: Books){
                     products.push_back(split(item, delimiter));
                 }
-            }else{ cout << "System error: Fetching (Wrong category)" << endl; }
+            }else{ cout << "System error! Util::catSplit: (Wrong category)" << endl; }
 
             return products;
         }
@@ -184,25 +184,36 @@ class Util {
         }
 
         // Function to print the index of an element
-        int getIndex(vector<int> v, int K){
-            int index;
-            auto it = find(v.begin(), v.end(), K);
-            // If element was found
-            if (it != v.end()){
-                // calculating the index of K
-                index = it - v.begin();
-            }else {
-                // If the element is not in the vector
-                index = -1;
+        int getIndex(int cat, std::string k){
+            int index = -1;
+            vector<vector<string>> category;
+            string cat = ""+ k.at(0);
+
+            switch(cat){
+                case 0: category = DVDs;
+                    break;
+                case 1: category = CDs;  
+                    break;
+                case 2: category = Magazines;
+                    break;
+                case 3: category = Books;
+                    break;
+                default: cout << "System error! Util::getIndex(): wrong category.\r\n" << endl;
+                    break;
             }
+
+            for (int i = 0; i <= size(category); i++){
+                if(category[i][0] == k){ index = i; }
+            }
+
             return index;
         }
 
-        vector<string> getById(std::string id){
+        vector<string> getById(std::string index){
             vector<vector<string>> cat;
             vector<string> data({"empty", "empty", "empty", "empty", "empty"});
 
-            if(id.at(0) == 'D')     { cat = DVDs;      }
+            if     (id.at(0) == 'D'){ cat = DVDs;      }
             else if(id.at(0) == 'C'){ cat = CDs;       }
             else if(id.at(0) == 'M'){ cat = Magazines; }
             else if(id.at(0) == 'B'){ cat = Books;     }

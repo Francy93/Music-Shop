@@ -148,7 +148,7 @@ class Util {
 
         void updater(){
             dbQuery(true); //runnin dbQuery in input mode
-            SessionDB = dbQuery(false);
+            SessionDB = dbQuery(false); //runnin dbQuery in output mode
         }
 
         string IntToString(int a){
@@ -184,27 +184,22 @@ class Util {
             return date+"/"+time;
         }
 
-        vector<vector<string>> catSelector(int cat){
-            vector<vector<string>> category;
-            switch(cat){
-                case 0: category = DVDs;
-                    break;
-                case 1: category = CDs;  
-                    break;
-                case 2: category = Magazines;
-                    break;
-                case 3: category = Books;
-                    break;
-                default: cout << "System error! Util::getIndex(): wrong category.\r\n" << endl;
-                    break;
-            }
-            return category;
+        vector<vector<string>> catSelector(std::string id){
+            vector<vector<string>> cat({{"void"},{"void"}});
+
+            if     (id.at(0) == 'D' || id.at(0) == '0'){ cat = DVDs;      }
+            else if(id.at(0) == 'C' || id.at(0) == '1'){ cat = CDs;       }
+            else if(id.at(0) == 'M' || id.at(0) == '2'){ cat = Magazines; }
+            else if(id.at(0) == 'B' || id.at(0) == '3'){ cat = Books;     }
+            else{ cout << "System error! Util::catSelector(): Wrong ID format\r\n" << endl; }
+
+            return cat;
         }
 
         // Function to print the index of an element
         int getIndex(int cat, std::string k){
             int index = -1;
-            vector<vector<string>> category ({catSelector(cat)});
+            vector<vector<string>> category ({catSelector(k)});
 
             for (int i = 0; i < category.size(); i++){
                 if(category[i][0] == k){ index = i; }
@@ -214,14 +209,8 @@ class Util {
         }
 
         vector<string> getById(std::string id){
-            vector<vector<string>> cat;
-            vector<string> data({"empty", "empty", "empty", "empty", "empty"});
-
-            if     (id.at(0) == 'D'){ cat = DVDs;      }
-            else if(id.at(0) == 'C'){ cat = CDs;       }
-            else if(id.at(0) == 'M'){ cat = Magazines; }
-            else if(id.at(0) == 'B'){ cat = Books;     }
-            else{ cout << "System error! Util::getById(): not a valid id\r\n" << endl; }
+            vector<vector<string>> cat({catSelector(id)});
+            vector<string> data({"", "", "", "", ""});
 
             for(vector<string> c: cat){
                 if(c[0] == id){
@@ -235,7 +224,7 @@ class Util {
             if(cat > SessionDB.size()){
                 cout << "System error! Util::print() wrong cateory.\r\n" << endl;
             }else{
-                vector<vector<string>> category ({catSelector(cat)});
+                vector<vector<string>> category ({catSelector(IntToString(cat))});
 
                 for (vector<string> product: category){
                     for (string details: product){

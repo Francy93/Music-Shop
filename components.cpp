@@ -35,6 +35,8 @@ class Categories{
                 bool found = util.getById(id)[0] == id? true : false;
                 int index = util.getIndex(catIndex, id);
 
+                cout << index << " catIndex: " << catIndex << endl;
+
                 switch(catIndex){
                     case 0: 
                         if(found){
@@ -44,7 +46,9 @@ class Categories{
                         break;
                     case 1:  
                         if(found){
+                            cout << newItem[3] << endl;
                             util.CDs[index] = newItem;
+                            cout << util.CDs[index][3] << endl;
                         }else{ util.CDs.push_back(newItem); }
                         //util.updater(); //auto updating the database
                         break;
@@ -88,6 +92,12 @@ class Categories{
             }
             return amount; 
         }
+
+        void propSetter(){
+            getName();
+            getPrice();
+            getAmount();
+        }
 };
 
 class DVD : public Categories {
@@ -97,7 +107,7 @@ class DVD : public Categories {
         int index = 0;
 
     public:        
-        DVD(std::string ID){ id = ID;}
+        DVD(std::string ID){ id = ID;  catIndex = index;  propSetter(); }
         DVD(){
             string n = idCalc(index);
             id = cat+"00"+n;
@@ -111,7 +121,7 @@ class CD : public Categories {
         int index = 1;
 
     public:
-        CD(std::string ID){ id = ID;}
+        CD(std::string ID){ id = ID;  catIndex = index;  propSetter(); }
         CD(){
             string n = idCalc(index);
             id = cat+"00"+n;
@@ -125,7 +135,7 @@ class Magazine : public Categories {
         int index = 2;
 
     public:
-        Magazine(std::string ID){ id = ID;}
+        Magazine(std::string ID){ id = ID;  catIndex = index;  propSetter(); }
         Magazine(){
             string n = idCalc(index);
             id = cat+"00"+n;
@@ -139,7 +149,7 @@ class Book : public Categories {
         int index = 3;
 
     public:
-        Book(std::string ID){ id = ID;}
+        Book(std::string ID){ id = ID;  catIndex = index;  propSetter(); }
         Book(){
             string n = idCalc(index);
             id = cat+"00"+n;
@@ -189,28 +199,39 @@ class Logistic {
             }
             
             while(!exit && !back){
-                string amount; cin >> amount;
-                if(amount == "exit"){
+                string id; cin >> id;
+                if(id == "exit"){
                     exit = true;
                     break;
-                }else if(amount == "back"){
+                }else if(id == "back"){
                     back = true;
                     exit = restock(exit);
                     break;
                 }else try{
+                    string amount; cin >> amount;
                     int num = stoi( amount );
-                    // function to summ restock amount
-                    cout << "Stock updated!" << endl;
-                    cout << "Restoking one more product? Enter \"yes\" or \"no\".\r\n" << endl;
-                    string choice; cin >> choice;
+                    vector<string> detailes({util.getById(id)});
+                    if(detailes[0] == ""){
+                        cout << "Wrong ID. Try again!\r\n" << endl;
+                    }else{
+                        int result = stoi(util.getById(id)[3]) + num; //summing the value entered
+                        if     (id.at(0) == 'D' || id.at(0) == '0'){ DVD cat(id);     cat.setAmount(num); }
+                        else if(id.at(0) == 'C' || id.at(0) == '1'){ CD cat(id);      cat.setAmount(num); }
+                        else if(id.at(0) == 'M' || id.at(0) == '2'){ Magazine cat(id); cat.setAmount(num);}
+                        else if(id.at(0) == 'B' || id.at(0) == '3'){ Book cat(id);    cat.setAmount(num); }
+                        else{ cout << "System error! Logistic::restock(): Wrong ID format\r\n" << endl; }
 
-                    while(true){
-                        if(choice == "yes"){
-                            exit = restock(exit);
-                            break;
-                        }else if(choice == "no"){
-                            break;
-                        }else { cout << "Choice not contemplated" << endl; }
+                        // function to summ restock amount
+                        cout << "Stock updated!" << endl;
+                        cout << "Restoking one more product? Enter \"yes\" or \"no\".\r\n" << endl;
+                    
+                        while(true){
+                            string choice; cin >> choice;
+                            if(choice == "yes"){ exit = restock(exit);  break; }
+                            else if(choice == "no"){ break; }
+                            else if(choice == "exit"){ exit = true;  break; }
+                            else { cout << "Choice not contemplated. Try again!" << endl; }
+                        }
                     }
                     break;
                 }catch (...) {
@@ -297,7 +318,7 @@ class Logistic {
                     break;
             }
 
-            if(!back){ exit = newItem(exit); }
+            if(!back && !exit){ exit = newItem(exit); }
             return exit;
         }
 

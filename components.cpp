@@ -9,11 +9,13 @@
 
 using namespace std;
 
+Util util;
+
 
 class Categories{
 
     private:
-        Util util;
+        //Util util;
         string name = "";
         string date = util.dateGen();
         string price = "";
@@ -38,24 +40,24 @@ class Categories{
                         if(found){
                             util.DVDs[index] = newItem;
                         }else{ util.DVDs.push_back(newItem); }
-                        util.updater();
+                        //util.updater(); // auto updating the database
                         break;
                     case 1:  
                         if(found){
                             util.CDs[index] = newItem;
                         }else{ util.CDs.push_back(newItem); }
-                        util.updater();
+                        //util.updater(); //auto updating the database
                         break;
                     case 2:  
                         if(found){
                             util.Magazines[index] = newItem;
                         }else{ util.Magazines.push_back(newItem); }
-                        util.updater();
+                        //util.updater(); //auto updating the database
                         break;
                     case 3: if(found){
                             util.Books[index] = newItem;
                         }else{ util.Books.push_back(newItem); }
-                        util.updater();
+                        //util.updater(); //auto updating the database
                         break;
                 }
             }
@@ -146,7 +148,7 @@ class Book : public Categories {
 
 class Logistic {
     private:
-        Util util;
+        //Util util;
         int chooseCat(bool IorO){
             int nav = 0;
             cout << "Choose category by entering \"DVD\", \"CD\", \"Magazines\", or \"Books\"" << endl;
@@ -239,7 +241,7 @@ class Logistic {
                     string amInt;
                     cin >> name;
                     if     (name == "exit"){ nav = -2;  exit = true;  break; }
-                    else if(name == "back"){ nav = -1;  back = true;  break; }
+                    else if(name == "back"){ nav = -1; break; }
                     cin >> price;
                     cin >> amInt;
                     if(regex_match(price, price_expr) && regex_match(amInt, amount_expr)){
@@ -261,37 +263,41 @@ class Logistic {
             switch(nav){
                 case -2: exit = true;
                     break;
-                case -1: back = true;
+                case -1:
                     break;
                 case  0: 
                     dvd.setName(name);
                     dvd.setPrice(price);
                     dvd.setAmount(amount);
                     cout << "Item successfully added!\r\n" << endl;
+                    back = true;
                     break; 
                 case  1: 
                     cd.setName(name);
                     cd.setPrice(price);
                     cd.setAmount(amount);
                     cout << "Item successfully added!\r\n" << endl;
+                    back = true;
                     break;
                 case  2: 
                     magazine.setName(name);
                     magazine.setPrice(price);
                     magazine.setAmount(amount);
                     cout << "Item successfully added!\r\n" << endl;
+                    back = true;
                     break;
                 case  3:
                     book.setName(name);
                     book.setPrice(price);
                     book.setAmount(amount);
                     cout << "Item successfully added!\r\n" << endl;
+                    back = true;
                     break;
                 default: cout << "System error: Wrong output from chooseCat()\r\n" << endl;
                     break;
             }
 
-            if(back || nav == -1){ exit = newItem(exit); }
+            if(!back){ exit = newItem(exit); }
             return exit;
         }
 

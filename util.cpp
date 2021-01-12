@@ -148,6 +148,7 @@ class Util {
 
         void updater(){
             dbQuery(true); //runnin dbQuery in input mode
+            SessionDB = dbQuery(false);
         }
 
         string IntToString(int a){
@@ -183,11 +184,8 @@ class Util {
             return date+"/"+time;
         }
 
-        // Function to print the index of an element
-        int getIndex(int cat, std::string k){
-            int index = -1;
+        vector<vector<string>> catSelector(int cat){
             vector<vector<string>> category;
-
             switch(cat){
                 case 0: category = DVDs;
                     break;
@@ -200,6 +198,13 @@ class Util {
                 default: cout << "System error! Util::getIndex(): wrong category.\r\n" << endl;
                     break;
             }
+            return category;
+        }
+
+        // Function to print the index of an element
+        int getIndex(int cat, std::string k){
+            int index = -1;
+            vector<vector<string>> category ({catSelector(cat)});
 
             for (int i = 0; i < category.size(); i++){
                 if(category[i][0] == k){ index = i; }
@@ -230,8 +235,13 @@ class Util {
             if(cat > SessionDB.size()){
                 cout << "System error! Util::print() wrong cateory.\r\n" << endl;
             }else{
-                for (string product: SessionDB[cat]){
-                    cout << product << endl;
+                vector<vector<string>> category ({catSelector(cat)});
+
+                for (vector<string> product: category){
+                    for (string details: product){
+                        cout << details << " ";
+                    }
+                    cout << endl;
                 }
                 cout << endl;
             }

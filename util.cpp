@@ -187,7 +187,6 @@ class Util {
         int getIndex(int cat, std::string k){
             int index = -1;
             vector<vector<string>> category;
-            string cat = ""+ k.at(0);
 
             switch(cat){
                 case 0: category = DVDs;
@@ -202,14 +201,14 @@ class Util {
                     break;
             }
 
-            for (int i = 0; i <= size(category); i++){
+            for (int i = 0; i <= category.size(); i++){
                 if(category[i][0] == k){ index = i; }
             }
 
             return index;
         }
 
-        vector<string> getById(std::string index){
+        vector<string> getById(std::string id){
             vector<vector<string>> cat;
             vector<string> data({"empty", "empty", "empty", "empty", "empty"});
 

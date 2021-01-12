@@ -15,7 +15,7 @@ class Categories{
         Util util;
         string name = "";
         string date = util.dateGen();
-        int price   = -1;
+        string price = "";
         int amount  = -1;
 
     protected:
@@ -28,8 +28,8 @@ class Categories{
             return util.IntToString(number);
         }
         void dataToVec(){
-            if(price != -1 && amount != -1 && name != ""){
-                vector<string> newItem({id, name, util.IntToString(price), util.IntToString(amount), date});
+            if(price != "" && amount != -1 && name != ""){
+                vector<string> newItem({id, name, price, util.IntToString(amount), date});
                 switch(catIndex){
                     case 0: util.DVDs.push_back(newItem);
                         util.updater();
@@ -49,7 +49,7 @@ class Categories{
             
     public:
         void setName(std::string n) { name = n;   dataToVec(); }
-        void setPrice(int p)        { price = p;  dataToVec(); }
+        void setPrice(std::string p){ price = p;  dataToVec(); }
         void setAmount(int a)       { amount = a; dataToVec(); }
 
         string getID(){ return id; }
@@ -60,9 +60,9 @@ class Categories{
             }
             return name;
         }
-        int getPrice(){ 
-            if (price == -1){
-                price = stoi(util.getById(id)[2]);
+        string getPrice(){ 
+            if (price == ""){
+                price = util.getById(id)[2];
             }
             return price;
         }
@@ -208,36 +208,27 @@ class Logistic {
             bool back = false;
             cout << "ADDING A NEW PRODUCT\r\n" << endl;
 
-            int price, amount;
+            int amount;
+            string price;
             string name;
 
             int nav = chooseCat(true); //this will print the product list
             if(nav == -2){ exit = true; }
             else if(nav == -1){ back = true; }
             else{
-                cout << "Please, enter a Name, a Price and a Quantity (e.g \"name,\" \"10.90,\" \"30\")" << endl;
+                cout << "Please, enter a Name, a Price and a Quantity (e.g \"name\" \"10.90\" \"30\")" << endl;
                 cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
-                string data; cin >> data;
-                string data2; cin >> data2;
-                string data3; cin >> data3;
-                data += " "+ data2 +" "+ data3;
-
-                vector<string> tokens ({util.split(data, ", ")});
                     
                 while(nav != -1 || nav != -2){
-                    if     (data == "exit"){ nav = -2;  exit = true;  break; }
-                    else if(data == "back"){ nav = -1;  back = true;  break; }
-                    else {
-                        try{                            
-                            amount = stoi( tokens[2] );
-                            price  = stoi( tokens[1] );
-                            name   = tokens[0];
-                            break;
-                        }catch (...){
-                            cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers." << endl;
-                            cout << "Try again!\r\n" << endl;
-                        }
-                    }
+                    cin >> name;
+                    cin >> price;
+                    cin >> amount;
+                    if     (name == "exit"){ nav = -2;  exit = true;  break; }
+                    else if(name == "back"){ nav = -1;  back = true;  break; }
+                    else if(stoi(price) == 0 && amount == 0){
+                        cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers greater than 0." << endl;
+                        cout << "Try again!\r\n" << endl;
+                    }else{ price += "$" ; break; }
                 }
             }
 

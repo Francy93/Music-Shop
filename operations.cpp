@@ -49,7 +49,8 @@ bool menuSecond(bool exit){
     }else{ 
         cout << "Choice not contemplated!\r\nTry again!" << endl;
     }
-    if(!exit && !back){ menuSecond(exit); }
+
+    if(!exit && !back){ exit = menuSecond(exit); }
 
     usrVec.clear(); //cleaning the user vector
     return exit;

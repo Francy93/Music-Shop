@@ -78,22 +78,18 @@ class Util {
         //importing data from HardDisk
         vector<vector<string>> dbQuery(bool InOut){
             
-                vector<string> DVD;
-                vector<string> CD;
-                vector<string> Magazine;
-                vector<string> Book;
+            vector<vector<string>> categories;
+            vector<string> cat = {"D", "C", "M", "B"};
 
-            if(!InOut){    
-                DVD      = importer("D");
-                CD       = importer("C");
-                Magazine = importer("M");
-                Book     = importer("B");
+            if(!InOut){   
+                for(string c: cat){
+                    categories.push_back(importer(c));
+                }
             }else{
                 exporter();
             }
 
-            vector<vector<string>> category({DVD, CD, Magazine, Book});
-            return category;
+            return categories;
         }
 
     public:

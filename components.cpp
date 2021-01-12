@@ -177,6 +177,18 @@ class Logistic {
             return nav;
         }
 
+        bool amountEditing(std::string id, int num){
+            bool success = true;
+
+            int result = stoi(util.getById(id)[3]) + num; //summing the value entered
+            if     (id.at(0) == 'D' || id.at(0) == '0'){ DVD cat(id);      cat.setAmount(result); }
+            else if(id.at(0) == 'C' || id.at(0) == '1'){ CD cat(id);       cat.setAmount(result); }
+            else if(id.at(0) == 'M' || id.at(0) == '2'){ Magazine cat(id); cat.setAmount(result); }
+            else if(id.at(0) == 'B' || id.at(0) == '3'){ Book cat(id);     cat.setAmount(result); }
+            else{ cout << "System error! Logistic::restock(): Wrong ID format\r\n" << endl; success = false; }
+            return success;
+        }
+
     public:
         bool update(){
             //function to update
@@ -213,14 +225,7 @@ class Logistic {
                     vector<string> detailes({util.getById(id)});
                     if(detailes[0] == ""){
                         cout << "Wrong ID. Try again!\r\n" << endl;
-                    }else{
-                        int result = stoi(util.getById(id)[3]) + num; //summing the value entered
-                        if     (id.at(0) == 'D' || id.at(0) == '0'){ DVD cat(id);     cat.setAmount(num); }
-                        else if(id.at(0) == 'C' || id.at(0) == '1'){ CD cat(id);      cat.setAmount(num); }
-                        else if(id.at(0) == 'M' || id.at(0) == '2'){ Magazine cat(id); cat.setAmount(num);}
-                        else if(id.at(0) == 'B' || id.at(0) == '3'){ Book cat(id);    cat.setAmount(num); }
-                        else{ cout << "System error! Logistic::restock(): Wrong ID format\r\n" << endl; }
-
+                    }else if(amountEditing(id, num)){
                         // function to summ restock amount
                         cout << "Stock updated!" << endl;
                         cout << "Restoking one more product? Enter \"yes\" or \"no\".\r\n" << endl;
@@ -331,17 +336,20 @@ class Logistic {
             else if(nav == -1){ back = true; }
 
             while(!exit && !back){
-                cout << "Now enter the ID of the product to be sold.\r\n" << endl;
+                cout << "Now enter the ID of the product to be sold and the quantity.\r\n" << endl;
                 string id; cin >> id;
-                bool idCheck = false; //checking existence id
 
-                if(idCheck){
-                    //displaying product details
-
-                }
-                else if(id == "exit"){ exit = true; }
-                else if(id == "back"){ back = true; }
-                else{ cout << "Wrong id!" << endl; }
+                if(id == "exit"){ exit = true; break; }
+                else if(id == "back"){ back = true; break; }
+                else if(util.getById(id)[0] == ""){ cout << "Wrong ID. Try again!\r\n" << endl; }
+                else try{ 
+                    int qty; cin >> qty;
+                    //this function below represent the stock updating
+                    if(amountEditing(id, -qty)){
+                        cout << "Successfully sold. Thanks for shopping!\r\n" << endl;
+                        break;
+                    }
+                }catch(...){ cout << "Wrong input, not a number. Try again!\r\n" << endl; }
 
             }
             if(back){ exit = sell(exit); }

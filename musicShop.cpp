@@ -20,11 +20,11 @@ int main(){
     }
 
     cout << "Before leaving, do you wanna save? Enter \"yes\" or \"no\"" << endl;
-    string saving; cin >> saving;
     while(true){
+        string saving; cin >> saving;
         if (saving == "yes"){ Util util;  util.updater();  break; }
         else if(saving == "no"){ break; }
-        else { cout << "Choice not contemplated" << endl; }
+        else { cout << "Choice not contemplated. Try again!" << endl; }
     }
 
     cout << "\r\nSuccessfully exited!" << endl;

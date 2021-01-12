@@ -65,9 +65,10 @@ class Util {
             for(vector<vector<string>> cat: all){
                 for(vector<string> item: cat){
                     for(string data: item){
+                        if(data != item[(item.size())-1]){ data += " :: "; }
                         file << data;
                     }
-                    file << "\r\n";
+                    file << endl;
                 }
             }
             //closing the file
@@ -97,15 +98,15 @@ class Util {
 
     public:
         //the holly strings splitter *.*
-        vector<string> split(std::string s, std::string delimiter){
+        vector<string> split(std::string s, std::string delim){
             vector<string> vec;
             
             size_t pos = 0;
             string token;
-            while ((pos = s.find(delimiter)) != string::npos) {
+            while ((pos = s.find(delim)) != string::npos) {
                 token = s.substr(0, pos);
                 vec.push_back(token);
-                s.erase(0, pos + delimiter.length());
+                s.erase(0, pos + delim.length());
             }
             vec.push_back(s);
             return vec;
@@ -169,16 +170,18 @@ class Util {
 
             int H = tm_local->tm_hour;
             string h = IntToString(H);  //converting hour to string
-            int MI = tm_local->tm_hour;
+            int MI = tm_local->tm_min;
             string mi = IntToString(MI);//converting minutes to string
-            int S = tm_local->tm_hour;
+            int S = tm_local->tm_sec;
             string s = IntToString(S);  //converting seconds to string
+            
             int D = tm_local->tm_mday;
             string d = IntToString(D);  //converting day to string
             int MO = tm_local->tm_mon;
             string mo = IntToString(MO);//converting month to string
             int Y = tm_local->tm_year;
             string y = IntToString(Y);  //converting year to string
+            mo += y.at(0);  string vs = ""; y = y.at(1) +vs+ y.at(2);
 
             string time = h+":"+mi+":"+s;
             string date = d+":"+mo+":"+y;
@@ -226,6 +229,7 @@ class Util {
                 for (string product: SessionDB[cat]){
                     cout << product << endl;
                 }
+                cout << endl;
             }
         }
 };

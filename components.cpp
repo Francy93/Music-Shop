@@ -32,21 +32,25 @@ class Categories{
                 vector<string> newItem({id, name, util.IntToString(price), util.IntToString(amount), date});
                 switch(catIndex){
                     case 0: util.DVDs.push_back(newItem);
+                        util.updater();
                         break;
                     case 1: util.CDs.push_back(newItem);
+                        util.updater();
                         break;
                     case 2: util.Magazines.push_back(newItem);
+                        util.updater();
                         break;
                     case 3: util.Books.push_back(newItem);
+                        util.updater();
                         break;
                 }
             }
         }
             
     public:
-        void setName(std::string n)  { name = n;   dataToVec(); }
-        void setPrice(int p)         { price = p;  dataToVec(); }
-        void setAmount(int a)        { amount = a; dataToVec(); }
+        void setName(std::string n) { name = n;   dataToVec(); }
+        void setPrice(int p)        { price = p;  dataToVec(); }
+        void setAmount(int a)       { amount = a; dataToVec(); }
 
         string getID(){ return id; }
 
@@ -211,23 +215,28 @@ class Logistic {
             if(nav == -2){ exit = true; }
             else if(nav == -1){ back = true; }
             else{
-                cout << "Please, enter a Name, a Price and a Quantity (e.g \"name\", \"10.90\", \"30\")" << endl;
+                cout << "Please, enter a Name, a Price and a Quantity (e.g \"name,\" \"10.90,\" \"30\")" << endl;
                 cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
                 string data; cin >> data;
+                string data2; cin >> data2;
+                string data3; cin >> data3;
+                data += " "+ data2 +" "+ data3;
 
                 vector<string> tokens ({util.split(data, ", ")});
-
+                    
                 while(nav != -1 || nav != -2){
                     if     (data == "exit"){ nav = -2;  exit = true;  break; }
                     else if(data == "back"){ nav = -1;  back = true;  break; }
-                    else try{
-                        price  = stoi( tokens[1] );
-                        amount = stoi( tokens[2] );
-                        name= tokens[0];
-                        break;
-                    }catch (...){
-                        cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers." << endl;
-                        cout << "Try again!\r\n" << endl;
+                    else {
+                        try{                            
+                            amount = stoi( tokens[2] );
+                            price  = stoi( tokens[1] );
+                            name   = tokens[0];
+                            break;
+                        }catch (...){
+                            cout << "Wrong input! Make sure \"price\" and \"amount\" are numbers." << endl;
+                            cout << "Try again!\r\n" << endl;
+                        }
                     }
                 }
             }

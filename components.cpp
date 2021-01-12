@@ -29,7 +29,7 @@ class Categories{
             return util.IntToString(number);
         }
         void dataToVec(){
-            if(price != "" && amount != -1 && name != ""){
+            if(price != "" && amount >= 0 && name != ""){
                 vector<string> newItem({id, name, price, util.IntToString(amount), date});
                 switch(catIndex){
                     case 0: util.DVDs.push_back(newItem);
@@ -220,8 +220,8 @@ class Logistic {
                 cout << "Please, enter a Name, a Price and a Quantity (e.g \"name\" \"10.90\" \"30\")" << endl;
                 cout << "Alternatively enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
                 
-                regex price_expr("-?[0-9]+([.][0-9]+)?");
-                regex amount_expr("-?[0-9]+([0-9]+)?");
+                regex price_expr("-?[0-9]+([.][0-9]+)?"); //price regular expression validation
+                regex amount_expr("-?[0-9]+([0-9]+)?");   //amount regular expression validation
                 while(nav != -1 || nav != -2){
                     string amInt;
                     cin >> name;

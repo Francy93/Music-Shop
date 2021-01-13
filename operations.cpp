@@ -1,4 +1,4 @@
-//#include "components.hpp"
+//#include "musicShop.hpp"
 #include "components.cpp"
 
 /* #include <string>
@@ -9,9 +9,9 @@
 using namespace std;
 
 
-vector<shared_ptr<User>> usrVec; // access Derived via shared_ptr to Base
+/* vector<shared_ptr<User>> usrVec; // access Derived via shared_ptr to Base
 auto user = make_shared<User>();
-auto sudo = make_shared<SuperUser>();
+auto sudo = make_shared<SuperUser>(); */
 
 bool userFirst(bool exit){  
     //selecting a user

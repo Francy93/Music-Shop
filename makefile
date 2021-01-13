@@ -8,14 +8,14 @@ final: musicShop.o util.o components.o
 	$(CC) musicShop.o components.o util.o -o final
 
 #compiling just the musicShop.cpp file even though musicShop,h is not compulsory, it is just for precaution
-musicShop.o: musicShop.cpp components.hpp
+musicShop.o: musicShop.cpp musicShop.hpp
 	$(CC) $(CFLAGS) musicShop.cpp
 
-util.o: util.cpp components.hpp
+util.o: util.cpp musicShop.hpp
 	$(CC) $(CFLAGS) util.cpp
 
 #compiling just the components.cpp file
-components.o: components.cpp components.hpp
+components.o: components.cpp musicShop.hpp
 	$(CC) $(CFLAGS) components.cpp
 
 #clearing all copild files

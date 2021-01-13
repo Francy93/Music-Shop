@@ -9,13 +9,12 @@
 
 using namespace std;
 
+//Making the dataBase object/truct
 Util util;
-
 
 class Categories{
 
     private:
-        //Util util;
         string name = "";
         string date = util.dateGen();
         string price = "";

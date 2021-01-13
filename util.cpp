@@ -67,8 +67,8 @@ class Util {
 
             fstream file;
             file.open(fname, std::ios::out);
-            //writing cicle
 
+            //writing cicle
             while(true){
                 for(vector<vector<string>> cat: all){
                     for(vector<string> item: cat){ int i = -1;
@@ -262,7 +262,7 @@ class Util {
 
         vector<string> getById(std::string id){
             vector<vector<string>> cat({catSelector(id)});
-            vector<string> data({"", "", "", "", ""});
+            vector<string> data(5, "");
 
             for(vector<string> c: cat){
                 if(c[0] == id){

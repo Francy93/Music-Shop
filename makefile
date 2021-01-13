@@ -4,9 +4,9 @@ CC = g++
 CFLAGS = -std=c++17  -c -Wall
 
 #compiling the two files to get the final one which would be musicShop.cpp and components.cpp
-final: musicShop.o util.o components.o operations.o
-	$(CC) musicShop.o operations.o components.o util.o -o final 
-
+final: util.o components.o operations.o musicShop.o
+	$(CC)  musicShop.o -o final 
+#util.o components.o operations.o
 #compiling just the musicShop.cpp file even though musicShop,h is not compulsory, it is just for precaution
 musicShop.o: musicShop.cpp musicShop.hpp
 	$(CC) $(CFLAGS) musicShop.cpp

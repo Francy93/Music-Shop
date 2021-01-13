@@ -5,6 +5,7 @@
 #include <vector>   // vectors library
 #include <fstream>  // file text scanner
 #include <algorithm>// std::find
+#include <cctype>   // remove white spaces
 
 using namespace std;
 
@@ -60,18 +61,36 @@ class Util {
         //data exporter
         void exporter(){
             vector<vector<vector<string>>> all({DVDs, CDs, Magazines, Books});
+            vector<int> caracters={0,0,0,0,0};
+            int leng;
+            bool mode = false;
 
             fstream file;
             file.open(fname, std::ios::out);
             //writing cicle
-            for(vector<vector<string>> cat: all){
-                for(vector<string> item: cat){
-                    for(string data: item){
-                        if(data != item[(item.size())-1]){ data += delimiter; }
-                        file << data;
+
+            while(true){
+                for(vector<vector<string>> cat: all){
+                    for(vector<string> item: cat){ int i = -1;
+                        for(string data: item){        i ++;
+                            //removing white spaces
+                            data.erase(std::remove_if(data.begin(), data.end(), ::isspace), data.end());
+                            leng = data.length();
+
+                            if(!mode){
+                                caracters[i] = caracters[i] < leng ? leng : caracters[i];
+                            }else{
+                                string spaces = "";
+                                for(int j=0; j<caracters[i]-leng ;j++){ spaces += " "; }
+                                if(data != item[(item.size())-1]){ data += spaces + delimiter; }
+                                file << data;
+                            }
+                        }
+                        if(mode){ file << endl; }
                     }
-                    file << endl;
                 }
+                if (mode){ break; } //exiting main loop
+                mode = true;
             }
             //closing the file
             file.close();

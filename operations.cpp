@@ -27,7 +27,7 @@ bool userFirst(bool exit){
         usrVec.push_back(user);
     }else{ 
         cout << "Choice not contemplated!\r\nTry again!" << endl;
-        userFirst(exit);
+        exit = userFirst(exit);
     }
     return exit;
 }

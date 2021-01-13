@@ -35,33 +35,30 @@ class Categories{
                 bool found = util.getById(id)[0] == id? true : false;
                 int index = util.getIndex(catIndex, id);
 
-                cout << index << " catIndex: " << catIndex << endl;
-
                 switch(catIndex){
                     case 0: 
                         if(found){
                             util.DVDs[index] = newItem;
                         }else{ util.DVDs.push_back(newItem); }
+                        util.saved = false;
                         //util.updater(); // auto updating the database
                         break;
                     case 1:  
                         if(found){
-                            cout << newItem[3] << endl;
                             util.CDs[index] = newItem;
-                            cout << util.CDs[index][3] << endl;
                         }else{ util.CDs.push_back(newItem); }
-                        //util.updater(); //auto updating the database
+                        util.saved = false;
                         break;
                     case 2:  
                         if(found){
                             util.Magazines[index] = newItem;
                         }else{ util.Magazines.push_back(newItem); }
-                        //util.updater(); //auto updating the database
+                        util.saved = false;
                         break;
                     case 3: if(found){
                             util.Books[index] = newItem;
                         }else{ util.Books.push_back(newItem); }
-                        //util.updater(); //auto updating the database
+                        util.saved = false;
                         break;
                 }
             }
@@ -189,7 +186,11 @@ class Logistic {
             return success;
         }
 
+        vector<char> catChar = {'D', 'C', 'M', 'B'};
+
     public:
+        string user; //this variable shows in the report which user operated
+
         bool update(){
             //function to update
             util.updater();
@@ -223,8 +224,11 @@ class Logistic {
                     string amount; cin >> amount;
                     int num = stoi( amount );
                     vector<string> detailes({util.getById(id)});
+                    
                     if(detailes[0] == ""){
                         cout << "Wrong ID. Try again!\r\n" << endl;
+                    }else if(detailes[0].at(0) != catChar[nav]){
+                        cout << "Wrong category. Try again!\r\n" << endl;
                     }else if(amountEditing(id, num)){
                         // function to summ restock amount
                         cout << "Stock updated!" << endl;
@@ -237,10 +241,10 @@ class Logistic {
                             else if(choice == "exit"){ exit = true;  break; }
                             else { cout << "Choice not contemplated. Try again!" << endl; }
                         }
+                        break;
                     }
-                    break;
                 }catch (...) {
-                    cout << "Wrong input. Try again!\r\n" << endl;
+                    cout << "Wrong amount. Try again!\r\n" << endl;
                 }
             }
             return exit;
@@ -327,32 +331,35 @@ class Logistic {
             return exit;
         }
 
-        bool sell(bool exit){
+        bool sale(bool exit){
             bool back = false;
             cout << "SELLING\r\n";
 
             int nav = chooseCat(false);
             if(nav == -2){ exit = true; }
             else if(nav == -1){ back = true; }
-
+            
             while(!exit && !back){
                 cout << "Now enter the ID of the product to be sold and the quantity.\r\n" << endl;
                 string id; cin >> id;
 
                 if(id == "exit"){ exit = true; break; }
-                else if(id == "back"){ back = true; break; }
+                else if(id == "back"){ break; }
                 else if(util.getById(id)[0] == ""){ cout << "Wrong ID. Try again!\r\n" << endl; }
-                else try{ 
+                else if(util.getById(id)[0].at(0) != catChar[nav]){
+                        cout << "Wrong category. Try again!\r\n" << endl;
+                }else try{ 
                     int qty; cin >> qty;
                     //this function below represent the stock updating
                     if(amountEditing(id, -qty)){
+                        util.reporting(id, qty, user);  //creating a report line
                         cout << "Successfully sold. Thanks for shopping!\r\n" << endl;
                         break;
                     }
                 }catch(...){ cout << "Wrong input, not a number. Try again!\r\n" << endl; }
 
             }
-            if(back){ exit = sell(exit); }
+            if(!back && !exit){ exit = sale(exit); }
             return exit;    
         }
 
@@ -362,9 +369,12 @@ class Logistic {
             cout << "REPORT LIST" << endl;
             cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
             //function displaying the report list           
-            
+            if(!util.reportDisplay()){
+                cout << "No report to be shown!\r\n" << endl;
+            }
+
             while(!exit){
-                cout << "Enter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
+                cout << "\r\nEnter \"back\" to abort or \"exit\" to close the program.\r\n" << endl;
                 string choice; cin >> choice;
 
                 if(choice == "back"){ break; }
@@ -383,14 +393,18 @@ struct User {
         Logistic logistic;
 
     public:
+        User(){
+            logistic.user = "Employee";
+        }
+
         virtual bool privileges(){ return false; }
-        virtual string text(){ return "Sell,\r\nRestock,\r\n"; }
+        virtual string text(){ return "Sale,\r\nRestock,\r\n"; }
         
         virtual bool selection(std::string choice){
             bool exit = false;
 
-            if(choice == "Sell"){
-                exit =logistic.sell(exit);
+            if(choice == "Sale"){
+                exit =logistic.sale(exit);
             }else if (choice == "Restock"){
                 exit =logistic.restock(exit);
             }else if (choice == "NewItem" || choice == "Update" || choice == "Report"){
@@ -406,16 +420,20 @@ struct User {
 struct SuperUser : User{
         
     public:
+        SuperUser(){
+            logistic.user = "Manager";
+        }
+
         bool privileges() override { return true; }
         string text() override { 
-            return "Sell,\r\nRestock,\r\nNewItem,\r\nUpdate,\r\nReport.\r\n";
+            return "Sale,\r\nRestock,\r\nNewItem,\r\nUpdate,\r\nReport.\r\n";
         }
         
         bool selection(std::string choice) override{
             bool exit = false;
 
-            if(choice == "Sell"){
-                exit = logistic.sell(exit);
+            if(choice == "Sale"){
+                exit = logistic.sale(exit);
             }else if (choice == "Restock"){
                 exit = logistic.restock(exit);
             }else if(choice == "NewItem"){

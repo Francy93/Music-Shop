@@ -12,6 +12,7 @@ using namespace std;
 class Util {
 
     public:
+        bool saved = true;
         //categories matrix
         vector<vector<string>> DVDs;
         vector<vector<string>> CDs;
@@ -19,6 +20,7 @@ class Util {
         vector<vector<string>> Books;
         
         vector<vector<string>> SessionDB;
+        vector<string> reportVec;
 
     private:
         string delimiter = " :: ";
@@ -73,6 +75,7 @@ class Util {
             }
             //closing the file
             file.close();
+            saved = true;
         }
 
         //importing data from HardDisk
@@ -91,6 +94,36 @@ class Util {
         }
 
     public:
+        bool reportDisplay(){
+            bool full = false;
+
+            for(string line: reportVec){
+                full = true;
+                cout << line << endl;
+            }
+
+            return full;
+        }
+
+        string reporting(std::string id, int qty, std::string user){
+            string line;
+            for(int i=0 ; i< getById(id).size() ; i++){
+                switch(i){
+                    case 0: line += id + delimiter;
+                        break;
+                    case 3: line += IntToString(qty) + delimiter;
+                            line += user + delimiter;
+                        break;
+                    default: 
+                        if(getById(id).size()-1 > i) { line += getById(id)[i] + delimiter; }
+                        else{ line += getById(id)[i]; }
+                        break;
+                }
+            }
+            reportVec.push_back(line);
+            return line;
+        }
+
         //the holly strings splitter *.*
         vector<string> split(std::string s, std::string delim){
             vector<string> vec;

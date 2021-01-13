@@ -1,10 +1,10 @@
 //#include "components.hpp"
 #include "components.cpp"
 
-#include <string>
-#include <iostream>
+/* #include <string>
+#include <iostream> */
 #include <memory>
-#include <vector>
+/* #include <vector> */
 
 using namespace std;
 
@@ -41,7 +41,7 @@ bool menuSecond(bool exit){
     
     if(choice == "exit"){
         exit = true;
-    }else if(   choice == "Sell"   || choice == "Restock"||
+    }else if(   choice == "Sale"   || choice == "Restock"||
                 choice == "NewItem"|| choice == "Update" || choice == "Report"){
         exit = usrVec.front()->selection(choice);
     }else if(choice == "back"){

@@ -27,12 +27,12 @@ class Util {
     public:
         bool saved = true;
         //categories matrix
-        vector<vector<string>> DVDs;
-        vector<vector<string>> CDs;
-        vector<vector<string>> Magazines;
-        vector<vector<string>> Books;
+        vector<vector<string> > DVDs;
+        vector<vector<string> > CDs;
+        vector<vector<string> > Magazines;
+        vector<vector<string> > Books;
         
-        vector<vector<string>> SessionDB;
+        vector<vector<string> > SessionDB;
         vector<string> reportVec;
 
     private:
@@ -46,7 +46,7 @@ class Util {
         void exporter();
 
         //importing data from HardDisk
-        vector<vector<string>> dbQuery(bool InOut);
+        vector<vector<string> > dbQuery(bool InOut);
 
     public:
         bool reportDisplay();
@@ -58,7 +58,7 @@ class Util {
 
     private:
         //fetching imported data, from sessionDB (ram) and splitting into categories
-        vector<vector<string>> catSplit(std::string category);
+        vector<vector<string> > catSplit(std::string category);
         
     public:
         //constructor method to initialize DataBase vectors
@@ -75,7 +75,7 @@ class Util {
 
         //current date generator
         string dateGen();
-        vector<vector<string>> catSelector(std::string id);
+        vector<vector<string> > catSelector(std::string id);
 
         // Function to print the index of an element
         int getIndex(int cat, std::string k);
@@ -253,7 +253,7 @@ struct SuperUser : User{
 
 //____________________________File operation.cpp_____________________________
 
-vector<shared_ptr<User>> usrVec; // access Derived via shared_ptr to Base
+vector<shared_ptr<User> > usrVec; // access Derived via shared_ptr to Base
 auto user = make_shared<User>();
 auto sudo = make_shared<SuperUser>();
 

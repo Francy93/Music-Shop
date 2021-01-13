@@ -1,11 +1,11 @@
 #creating the g++ variable containing the compiler instruction
 CC = g++
 #creating the -c -Wall variable containing compilation parameters
-CFLAGS = -c -Wall
+CFLAGS = -std=c++17  -c -Wall
 
 #compiling the two files to get the final one which would be musicShop.cpp and components.cpp
-final: musicShop.o util.o components.o
-	$(CC) musicShop.o components.o util.o -o final
+final: musicShop.o util.o components.o operations.o
+	$(CC) musicShop.o operations.o components.o util.o -o final 
 
 #compiling just the musicShop.cpp file even though musicShop,h is not compulsory, it is just for precaution
 musicShop.o: musicShop.cpp musicShop.hpp
@@ -18,6 +18,13 @@ util.o: util.cpp musicShop.hpp
 components.o: components.cpp musicShop.hpp
 	$(CC) $(CFLAGS) components.cpp
 
+#compiling just the operations.cpp file
+operations.o: operations.cpp musicShop.hpp
+	$(CC) $(CFLAGS) operations.cpp
+
 #clearing all copild files
 clear:
 	rm *.o final
+
+
+#mingw32-make -f makefile clear

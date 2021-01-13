@@ -1,10 +1,10 @@
-//#include "musicShop.hpp"
+#include "musicShop.hpp"
 #include "components.cpp"
 
-/* #include <string>
-#include <iostream> */
 #include <memory>
-/* #include <vector> */
+/* #include <string>
+#include <iostream>
+#include <vector> */
 
 using namespace std;
 

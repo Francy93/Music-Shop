@@ -47,7 +47,7 @@ vector<string> Util::importer(std::string cat){
 
 //data exporter
 void Util::exporter(){
-    vector<vector<vector<string>>> all({DVDs, CDs, Magazines, Books});
+    vector<vector<vector<string> > > all({DVDs, CDs, Magazines, Books});
     vector<int> caracters(5);
     int leng;
     bool mode = false;
@@ -57,7 +57,7 @@ void Util::exporter(){
 
     //writing cicle
     while(true){
-        for(vector<vector<string>> cat: all){
+        for(vector<vector<string> > cat: all){
             for(vector<string> item: cat){ int i = -1;
                 for(string data: item){        i ++;
                     //removing white spaces
@@ -85,9 +85,9 @@ void Util::exporter(){
 }
 
 //importing data from HardDisk
-vector<vector<string>> Util::dbQuery(bool InOut){
+vector<vector<string> > Util::dbQuery(bool InOut){
     
-    vector<vector<string>> categories;
+    vector<vector<string> > categories;
     vector<string> cat = {"D", "C", "M", "B"};
 
     if(!InOut){   
@@ -147,8 +147,8 @@ vector<string> Util::split(std::string s, std::string delim){
 
 
 //fetching imported data, from sessionDB (ram) and splitting into categories
-vector<vector<string>> Util::catSplit(std::string category){
-    vector<vector<string>> products;
+vector<vector<string> > Util::catSplit(std::string category){
+    vector<vector<string> > products;
 
     if(category == "D"){
         vector<string> DVDs ({SessionDB[0]});
@@ -214,8 +214,8 @@ string Util::dateGen(){
     return date+"/"+time;
 }
 
-vector<vector<string>> Util::catSelector(std::string id){
-    vector<vector<string>> cat({{"void"},{"void"}});
+vector<vector<string> > Util::catSelector(std::string id){
+    vector<vector<string> > cat({{"void"},{"void"}});
 
     if     (id.at(0) == 'D' || id.at(0) == '0'){ cat = DVDs;      }
     else if(id.at(0) == 'C' || id.at(0) == '1'){ cat = CDs;       }
@@ -229,7 +229,7 @@ vector<vector<string>> Util::catSelector(std::string id){
 // Function to print the index of an element
 int Util::getIndex(int cat, std::string k){
     int index = -1;
-    vector<vector<string>> category ({catSelector(k)});
+    vector<vector<string> > category ({catSelector(k)});
 
     for (int i = 0; i < category.size(); i++){
         if(category[i][0] == k){ index = i; }
@@ -239,7 +239,7 @@ int Util::getIndex(int cat, std::string k){
 }
 
 vector<string> Util::getById(std::string id){
-    vector<vector<string>> cat({catSelector(id)});
+    vector<vector<string> > cat({catSelector(id)});
     vector<string> data(5, "");
 
     for(vector<string> c: cat){
@@ -254,7 +254,7 @@ void Util::print(int cat){
     if(cat > SessionDB.size()){
         cout << "System error! Util::print() wrong cateory.\r\n" << endl;
     }else{
-        vector<vector<string>> category ({catSelector(IntToString(cat))});
+        vector<vector<string> > category ({catSelector(IntToString(cat))});
 
         for (vector<string> product: category){
             for (string details: product){

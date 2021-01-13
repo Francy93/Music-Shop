@@ -1,3 +1,4 @@
+#include "musicShop.hpp"
 #include "util.cpp"
 
 #include <regex>    // regular expressions

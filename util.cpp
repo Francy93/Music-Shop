@@ -61,7 +61,7 @@ class Util {
         //data exporter
         void exporter(){
             vector<vector<vector<string>>> all({DVDs, CDs, Magazines, Books});
-            vector<int> caracters={0,0,0,0,0};
+            vector<int> caracters(5);
             int leng;
             bool mode = false;
 

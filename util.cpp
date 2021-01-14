@@ -75,6 +75,7 @@ void Util::exporter(){
                 }
                 if(mode){ file << endl; }
             }
+            if(mode){ file << endl; }
         }
         if (mode){ break; } //exiting main loop
         mode = true;
@@ -267,7 +268,7 @@ bool Util::print(int cat){
         }
         cout << endl;
     }
-    return error;
+    return success;
 }
 
 //ending class Util

@@ -86,7 +86,7 @@ class Util {
 
 //____________________________File components.cpp_____________________________
 
-//Making the dataBase object/truct
+//Making the dataBase object/struct
 Util util;
 
 class Categories{
@@ -191,74 +191,6 @@ class Logistic {
         bool report();
 
 };
-/* 
-struct User {
-    
-    protected:
-        Logistic logistic;
-
-    public:
-        public:
-        User(){
-            logistic.user = "Employee";
-        }
-        virtual bool privileges(){ return false; }
-        virtual string text(){ return "Sale,\r\nRestock,\r\n"; }
-        
-        virtual bool selection(std::string choice){
-            bool exit = false;
-
-            if(choice == "Sale"){
-                exit =logistic.sale(exit);
-            }else if (choice == "Restock"){
-                exit =logistic.restock(exit);
-            }else if (choice == "NewItem" || choice == "Update" || choice == "Report"){
-                cout << "Access denied. User not allowed!\r\n" << endl;
-            }else { cout << "Error user: wrong operation choice!\r\n" << endl; }
-
-            return exit;
-        }
-};
-
-struct SuperUser : User{
-        
-    public:
-        SuperUser(){
-            logistic.user = "Manager";
-        }
-        bool privileges() override { return true; }
-        string text() override { 
-            return "Sale,\r\nRestock,\r\nNewItem,\r\nUpdate,\r\nReport.\r\n";
-        }
-        
-        bool selection(std::string choice) override {
-            bool exit = false;
-
-            if(choice == "Sale"){
-                exit = logistic.sale(exit);
-            }else if (choice == "Restock"){
-                exit = logistic.restock(exit);
-            }else if(choice == "NewItem"){
-                exit = logistic.newItem(exit);
-            }else if (choice == "Update"){
-                exit = logistic.update();
-            }else if (choice == "Report"){
-                exit = logistic.report();
-            }else { cout << "Error sudo: wrong operation choice!\r\n"; }
-
-            return exit;
-        }
-};
- */
-
-//____________________________File operation.cpp_____________________________
-
-/* vector<shared_ptr<User> > usrVec; // access Derived via shared_ptr to Base
-auto user = make_shared<User>();
-auto sudo = make_shared<SuperUser>();
-
-bool userFirst(bool exit);
-bool menuSecond(bool exit); */
 
 
 #endif

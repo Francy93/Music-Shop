@@ -24,7 +24,7 @@ operations.o: operations.cpp musicShop.hpp
 	$(CC) $(CFLAGS) operations.cpp
 
 #clearing all copild files
-clear:
+clean:
 	rm *.o final
 
 

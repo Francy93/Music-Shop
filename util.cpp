@@ -250,9 +250,12 @@ vector<string> Util::getById(std::string id){
     return data;
 }
 
-void Util::print(int cat){
+bool Util::print(int cat){
+    bool success = true;
+
     if(cat > SessionDB.size()){
         cout << "System error! Util::print() wrong cateory.\r\n" << endl;
+        success = false;
     }else{
         vector<vector<string> > category ({catSelector(IntToString(cat))});
 
@@ -264,6 +267,7 @@ void Util::print(int cat){
         }
         cout << endl;
     }
+    return error;
 }
 
 //ending class Util

@@ -80,7 +80,7 @@ class Util {
         // Function to print the index of an element
         int getIndex(int cat, std::string k);
         vector<string> getById(std::string id);
-        void print(int cat);
+        bool print(int cat);
 };
 
 
@@ -191,7 +191,7 @@ class Logistic {
         bool report();
 
 };
-
+/* 
 struct User {
     
     protected:
@@ -249,16 +249,16 @@ struct SuperUser : User{
             return exit;
         }
 };
-
+ */
 
 //____________________________File operation.cpp_____________________________
 
-vector<shared_ptr<User> > usrVec; // access Derived via shared_ptr to Base
+/* vector<shared_ptr<User> > usrVec; // access Derived via shared_ptr to Base
 auto user = make_shared<User>();
 auto sudo = make_shared<SuperUser>();
 
 bool userFirst(bool exit);
-bool menuSecond(bool exit);
+bool menuSecond(bool exit); */
 
 
 #endif

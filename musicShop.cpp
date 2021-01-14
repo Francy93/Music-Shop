@@ -1,10 +1,6 @@
 #include "musicShop.hpp"
 #include "operations.cpp"
 
-/* #include <iostream>
-#include <string>
-#include <memory>
-#include <vector> */
 
 using namespace std;
 

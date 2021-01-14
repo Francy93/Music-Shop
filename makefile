@@ -7,6 +7,7 @@ CFLAGS = -std=c++17  -c -Wall
 final: util.o components.o operations.o musicShop.o
 	$(CC)  musicShop.o -o final 
 #util.o components.o operations.o
+
 #compiling just the musicShop.cpp file even though musicShop,h is not compulsory, it is just for precaution
 musicShop.o: musicShop.cpp musicShop.hpp
 	$(CC) $(CFLAGS) musicShop.cpp

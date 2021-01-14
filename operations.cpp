@@ -2,16 +2,16 @@
 #include "components.cpp"
 
 #include <memory>
-/* #include <string>
-#include <iostream>
-#include <vector> */
 
 using namespace std;
 
-
-/* vector<shared_ptr<User>> usrVec; // access Derived via shared_ptr to Base
+vector<shared_ptr<User> > usrVec; // access Derived via shared_ptr to Base
 auto user = make_shared<User>();
-auto sudo = make_shared<SuperUser>(); */
+auto sudo = make_shared<SuperUser>();
+
+bool userFirst(bool exit);
+bool menuSecond(bool exit); 
+
 
 bool userFirst(bool exit){  
     //selecting a user

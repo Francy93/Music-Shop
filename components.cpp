@@ -2,10 +2,6 @@
 #include "util.cpp"
 
 #include <regex>    // regular expressions
-/* #include <string>
-#include <iostream>
-#include <ctime>   //library for data and time
-#include <vector> */
 
 using namespace std;
 
@@ -315,9 +311,6 @@ bool Logistic::report(){
     return exit;    
 }
 
-//ending the class Logistic
-
-/* 
 struct User {
     
     protected:
@@ -374,4 +367,4 @@ struct SuperUser : User{
 
             return exit;
         }
-}; */
+};

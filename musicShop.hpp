@@ -5,8 +5,8 @@
 #include <iostream>
 #include <string>  //library for string variables
 #include <ctime>   //library for data and time
-#include <sstream> //library for intoToString converter
-#include <vector> //library for intoToString converter
+#include <sstream> //library for intToString converter
+#include <vector> //library for vectors
 
 #include <fstream>  // file text scanner
 #include <algorithm>// std::find

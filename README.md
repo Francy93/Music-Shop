@@ -1,5 +1,5 @@
 # Music-Shop
-C++: Second project of the Computer Science second-year about Engineering and Software Management.
+C++: First project of the Computer Science second-year about Engineering and Software Management.
 
 ![alt text](Presentation/Presentation-MusicShop-page-001.jpg "Main page")
 ![alt text](Presentation/Presentation-MusicShop-page-002.jpg "Main page")
